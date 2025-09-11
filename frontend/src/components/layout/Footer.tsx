@@ -18,6 +18,7 @@ import {
   LocationOn,
   AccessTime,
 } from '@mui/icons-material';
+import mcanLogo from '/mcanlogo.jpg';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -60,17 +61,30 @@ const Footer: React.FC = () => {
           {/* MCAN Info */}
           <Grid item xs={12} md={4}>
             <Box>
-              <Typography
-                variant="h5"
-                component="div"
-                sx={{
-                  fontWeight: 'bold',
-                  mb: 2,
-                  color: '#FFD54F',
-                }}
-              >
-                MCAN
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <Box
+                  component="img"
+                  src={mcanLogo}
+                  alt="MCAN Logo"
+                  sx={{
+                    height: 40,
+                    width: 'auto',
+                    mr: 2,
+                    borderRadius: 1,
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                  }}
+                />
+                <Typography
+                  variant="h5"
+                  component="div"
+                  sx={{
+                    fontWeight: 'bold',
+                    color: '#FFD54F',
+                  }}
+                >
+                  MCAN
+                </Typography>
+              </Box>
               <Typography
                 variant="body2"
                 sx={{

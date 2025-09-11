@@ -30,6 +30,7 @@ import {
   LocationOn,
   ContactMail,
 } from '@mui/icons-material';
+import mcanLogo from '/mcanlogo.jpg';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -85,6 +86,18 @@ const Navbar: React.FC = () => {
   const drawer = (
     <Box sx={{ width: 250 }}>
       <Box sx={{ p: 2, textAlign: 'center', borderBottom: '1px solid #e0e0e0' }}>
+        <Box
+          component="img"
+          src={mcanLogo}
+          alt="MCAN Logo"
+          sx={{
+            height: 50,
+            width: 'auto',
+            mb: 1,
+            borderRadius: 1,
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          }}
+        />
         <Typography variant="h6" color="primary" fontWeight="bold">
           MCAN
         </Typography>
@@ -184,29 +197,44 @@ const Navbar: React.FC = () => {
             }}
             onClick={() => navigate('/')}
           >
-            <Typography
-              variant="h5"
-              component="div"
+            <Box
+              component="img"
+              src={mcanLogo}
+              alt="MCAN Logo"
               sx={{
-                fontWeight: 'bold',
-                color: 'white',
-                textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
+                height: 40,
+                width: 'auto',
+                mr: 2,
+                borderRadius: 1,
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
               }}
-            >
-              MCAN
-            </Typography>
-            {!isMobile && (
+            />
+            <Box>
               <Typography
-                variant="caption"
+                variant="h5"
+                component="div"
                 sx={{
-                  ml: 1,
-                  color: 'rgba(255,255,255,0.8)',
-                  fontSize: '0.7rem',
+                  fontWeight: 'bold',
+                  color: 'white',
+                  textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
+                  lineHeight: 1,
                 }}
               >
-                Muslim Corpers Association of Nigeria
+                MCAN
               </Typography>
-            )}
+              {!isMobile && (
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: 'rgba(255,255,255,0.8)',
+                    fontSize: '0.7rem',
+                    lineHeight: 1,
+                  }}
+                >
+                  Muslim Corpers Association of Nigeria
+                </Typography>
+              )}
+            </Box>
           </Box>
 
           {/* Desktop Navigation */}

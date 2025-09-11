@@ -25,6 +25,7 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import mcanLogo from '/mcanlogo.jpg';
 
 const HomePage: React.FC = () => {
   const theme = useTheme();
@@ -209,6 +210,18 @@ const HomePage: React.FC = () => {
                     backdropFilter: 'blur(10px)',
                   }}
                 >
+                  <Box
+                    component="img"
+                    src={mcanLogo}
+                    alt="MCAN Logo"
+                    sx={{
+                      height: 80,
+                      width: 'auto',
+                      mb: 2,
+                      borderRadius: 2,
+                      boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+                    }}
+                  />
                   <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
                     MCAN Statistics
                   </Typography>
