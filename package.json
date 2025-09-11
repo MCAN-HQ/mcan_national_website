@@ -1,0 +1,53 @@
+{
+  "name": "mcan-national-website",
+  "version": "1.0.0",
+  "description": "Muslim Corpers Association of Nigeria - National Website Platform",
+  "main": "index.js",
+  "scripts": {
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd frontend && npm start",
+    "dev:backend": "cd backend && npm run dev",
+    "build": "cd frontend && npm run build && cd ../backend && npm run build",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "cd frontend && npm test",
+    "test:backend": "cd backend && npm test",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && npm run lint",
+    "docker:build": "echo 'docker disabled'",
+    "docker:up": "echo 'docker disabled'",
+    "docker:down": "echo 'docker disabled'",
+    "setup:db": "cd database && npm run migrate",
+    "seed:db": "cd database && npm run seed"
+  },
+  "keywords": [
+    "mcan",
+    "muslim-corpers",
+    "nysc",
+    "nigeria",
+    "islamic-organization",
+    "react",
+    "nodejs",
+    "postgresql"
+  ],
+  "author": "MCAN Technical Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcan-nigeria/mcan-national-website.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mcan-nigeria/mcan-national-website/issues"
+  },
+  "homepage": "https://mcan.org.ng"
+}
