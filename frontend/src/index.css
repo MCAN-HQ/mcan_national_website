@@ -1,0 +1,175 @@
+/* MCAN National Website - Global Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
+  color: #424242;
+  line-height: 1.6;
+}
+
+/* Arabic font for Islamic content */
+.arabic-text {
+  font-family: 'Amiri', 'Times New Roman', serif;
+  direction: rtl;
+  text-align: right;
+}
+
+/* Islamic geometric patterns background */
+.islamic-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(46, 125, 50, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(76, 175, 80, 0.1) 0%, transparent 50%);
+}
+
+/* MCAN Brand Colors */
+:root {
+  --mcan-primary: #2E7D32;
+  --mcan-primary-light: #4CAF50;
+  --mcan-primary-lighter: #81C784;
+  --mcan-secondary: #FFC107;
+  --mcan-secondary-light: #FFD54F;
+  --mcan-white: #FFFFFF;
+  --mcan-text-dark: #1B5E20;
+  --mcan-text-gray: #424242;
+  --mcan-background: #FAFAFA;
+  --mcan-border: #E0E0E0;
+  --mcan-success: #4CAF50;
+  --mcan-warning: #FF9800;
+  --mcan-error: #F44336;
+  --mcan-info: #2196F3;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--mcan-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mcan-primary-light);
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.3s ease;
+}
+
+/* Focus styles for accessibility */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--mcan-primary);
+  outline-offset: 2px;
+}
+
+/* Loading animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Pulse animation for important elements */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Islamic geometric border */
+.islamic-border {
+  position: relative;
+}
+
+.islamic-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid transparent;
+  background: linear-gradient(45deg, var(--mcan-primary), var(--mcan-secondary)) border-box;
+  border-radius: 8px;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .desktop-hidden {
+    display: none !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --mcan-primary: #1B5E20;
+    --mcan-text-gray: #000000;
+    --mcan-border: #000000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
