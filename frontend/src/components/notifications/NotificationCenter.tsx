@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box,
-  Card,
-  CardContent,
   Typography,
   List,
   ListItem,
@@ -10,7 +8,6 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   IconButton,
-  Badge,
   Chip,
   Divider,
   Button,
@@ -21,7 +18,6 @@ import {
 } from '@mui/material';
 import {
   Notifications,
-  NotificationsActive,
   Close,
   CheckCircle,
   Warning,
@@ -102,7 +98,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ open, onClose }
   useEffect(() => {
     setNotifications(mockNotifications);
     setUnreadCount(mockNotifications.filter(n => !n.read).length);
-  }, []);
+  }, [mockNotifications]);
 
   const getNotificationIcon = (type: string) => {
     switch (type) {

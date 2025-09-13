@@ -21,7 +21,7 @@ import {
   NightsStay,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import { format, addDays, isToday, isTomorrow } from 'date-fns';
+import { format } from 'date-fns';
 
 interface PrayerTime {
   name: string;
@@ -44,7 +44,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [, setCurrentTime] = useState(new Date());
 
   // Mock prayer times - in real app, this would come from an API
   const mockPrayerTimes = [
@@ -65,7 +65,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
     loadPrayerTimes();
 
     return () => clearInterval(timer);
-  }, [location]);
+  }, [location, loadPrayerTimes]);
 
   const loadPrayerTimes = async () => {
     setLoading(true);

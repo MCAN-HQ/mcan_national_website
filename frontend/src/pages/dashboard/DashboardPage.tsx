@@ -9,7 +9,6 @@ import {
   Business,
   Payment,
   TrendingUp,
-  LocationOn,
   School,
 } from '@mui/icons-material';
 

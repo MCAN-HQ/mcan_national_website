@@ -7,9 +7,7 @@ import {
   Grid,
   Card,
   CardContent,
-  CardActions,
   Avatar,
-  Chip,
   useTheme,
   useMediaQuery,
 } from '@mui/material';
@@ -29,7 +27,7 @@ import mcanLogo from '../assets/mcanlogo.jpg';
 
 const HomePage: React.FC = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const _ = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
 
   const stats = [

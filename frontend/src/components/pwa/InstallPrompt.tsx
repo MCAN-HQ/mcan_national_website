@@ -12,8 +12,6 @@ import {
 import {
   GetApp,
   Close,
-  PhoneAndroid,
-  Computer,
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 

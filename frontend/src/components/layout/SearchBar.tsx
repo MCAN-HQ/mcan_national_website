@@ -106,7 +106,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     } else {
       setResults([]);
     }
-  }, [query]);
+  }, [query, mockResults]);
 
   const handleSearch = (searchQuery: string) => {
     setQuery(searchQuery);

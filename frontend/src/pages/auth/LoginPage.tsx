@@ -7,7 +7,6 @@ import {
   Button,
   Typography,
   Link,
-  Alert,
   InputAdornment,
   IconButton,
   Divider,
@@ -22,7 +21,6 @@ import {
 import { useForm } from 'react-hook-form';
 import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { toast } from 'react-hot-toast';
 
 interface LoginFormData {
   email: string;
