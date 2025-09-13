@@ -25,7 +25,7 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import mcanLogo from '/mcanlogo.jpg';
+import mcanLogo from '../assets/mcanlogo.jpg';
 
 const HomePage: React.FC = () => {
   const theme = useTheme();

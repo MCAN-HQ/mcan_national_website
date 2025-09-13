@@ -29,10 +29,14 @@ import {
   Business,
   LocationOn,
   ContactMail,
+  AccessTime,
 } from '@mui/icons-material';
-import mcanLogo from '/mcanlogo.jpg';
+import mcanLogo from '../../assets/mcanlogo.jpg';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import SearchBar from './SearchBar';
+import DarkModeToggle from './DarkModeToggle';
+import NotificationBell from '../notifications/NotificationBell';
 
 const Navbar: React.FC = () => {
   const theme = useTheme();
@@ -74,6 +78,7 @@ const Navbar: React.FC = () => {
     { label: 'Membership', path: '/membership', icon: <People /> },
     { label: 'Services', path: '/services', icon: <Business /> },
     { label: 'States', path: '/states', icon: <LocationOn /> },
+    { label: 'Prayer Times', path: '/prayer-times', icon: <AccessTime /> },
     { label: 'Contact', path: '/contact', icon: <ContactMail /> },
   ];
 
@@ -259,8 +264,17 @@ const Navbar: React.FC = () => {
             </Box>
           )}
 
+          {/* Search Bar */}
+          {!isMobile && (
+            <Box sx={{ flexGrow: 1, maxWidth: 400, mx: 2 }}>
+              <SearchBar />
+            </Box>
+          )}
+
           {/* User Menu */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <DarkModeToggle />
+            {isAuthenticated && <NotificationBell />}
             {isAuthenticated ? (
               <>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>

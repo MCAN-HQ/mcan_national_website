@@ -18,7 +18,7 @@ import {
   LocationOn,
   AccessTime,
 } from '@mui/icons-material';
-import mcanLogo from '/mcanlogo.jpg';
+import mcanLogo from '../../assets/mcanlogo.jpg';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();

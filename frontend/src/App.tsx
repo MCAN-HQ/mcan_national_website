@@ -17,15 +17,20 @@ import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import ProfilePage from './pages/dashboard/ProfilePage';
+import PrayerTimesPage from './pages/PrayerTimesPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 // Protected Route Component
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
-// Context
+// Contexts
 import { useAuth } from './contexts/AuthContext';
+import { CustomThemeProvider } from './contexts/ThemeContext';
 
-const App: React.FC = () => {
+// PWA Components
+import InstallPrompt from './components/pwa/InstallPrompt';
+
+const AppContent: React.FC = () => {
   const { user } = useAuth();
 
   return (
@@ -41,6 +46,7 @@ const App: React.FC = () => {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/states" element={<StatesPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/prayer-times" element={<PrayerTimesPage />} />
           
           {/* Authentication Routes */}
           <Route 
@@ -76,7 +82,16 @@ const App: React.FC = () => {
       </Box>
       
       <Footer />
+      <InstallPrompt />
     </Box>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <CustomThemeProvider>
+      <AppContent />
+    </CustomThemeProvider>
   );
 };
 
