@@ -55,18 +55,6 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
     { name: 'Isha', time: '19:30', icon: <NightsStay />, color: '#673AB7' },
   ];
 
-  useEffect(() => {
-    // Update current time every minute
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 60000);
-
-    // Load prayer times
-    loadPrayerTimes();
-
-    return () => clearInterval(timer);
-  }, [location, loadPrayerTimes]);
-
   const loadPrayerTimes = async () => {
     setLoading(true);
     setError(null);
@@ -88,6 +76,18 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Update current time every minute
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000);
+
+    // Load prayer times
+    loadPrayerTimes();
+
+    return () => clearInterval(timer);
+  }, [location]);
 
   const handleNotificationToggle = () => {
     if (!notificationsEnabled) {
