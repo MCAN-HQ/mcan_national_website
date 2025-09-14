@@ -190,24 +190,48 @@ const initializeDatabase = async () => {
     const tableExists = await db.schema.hasTable('users');
     
     if (!tableExists) {
-      logger.info('Database tables not found, creating schema...');
+      logger.info('Database tables not found, creating minimal schema...');
       
-      // Read and execute schema
-      const fs = await import('fs');
-      const path = await import('path');
-      const schemaPath = path.resolve(process.cwd(), '..', 'database', 'schema.sql');
-      const sql = fs.readFileSync(schemaPath, 'utf-8');
+      // Create users table with minimal schema
+      await db.schema.createTable('users', (table) => {
+        table.uuid('id').primary().defaultTo(db.raw('uuid_generate_v4()'));
+        table.string('email', 255).unique().notNullable();
+        table.string('full_name', 255).notNullable();
+        table.string('phone', 20).notNullable();
+        table.string('password_hash', 255).notNullable();
+        table.string('role', 50).notNullable().defaultTo('MEMBER');
+        table.string('state_code', 10);
+        table.string('nysc_number', 20);
+        table.string('deployment_state', 100);
+        table.string('service_year', 10);
+        table.boolean('is_active').defaultTo(true);
+        table.boolean('is_email_verified').defaultTo(false);
+        table.string('profile_picture', 500);
+        table.jsonb('biometric_data');
+        table.string('email_verification_token', 255);
+        table.string('password_reset_token', 255);
+        table.timestamp('password_reset_expires');
+        table.timestamp('last_login');
+        table.timestamps(true, true);
+      });
       
-      // Split SQL into individual statements and execute
-      const statements = sql.split(';').filter(stmt => stmt.trim().length > 0);
+      // Create members table
+      await db.schema.createTable('members', (table) => {
+        table.uuid('id').primary().defaultTo(db.raw('uuid_generate_v4()'));
+        table.uuid('user_id').notNullable().references('id').inTable('users').onDelete('CASCADE');
+        table.string('state_code', 10).notNullable();
+        table.string('nysc_number', 20).unique().notNullable();
+        table.string('deployment_state', 100).notNullable();
+        table.string('service_year', 10).notNullable();
+        table.timestamp('registration_date').defaultTo(db.fn.now());
+        table.string('membership_status', 20).defaultTo('ACTIVE');
+        table.string('payment_status', 20).defaultTo('CURRENT');
+        table.timestamp('last_payment_date');
+        table.timestamp('next_payment_date');
+        table.timestamps(true, true);
+      });
       
-      for (const statement of statements) {
-        if (statement.trim()) {
-          await db.raw(statement);
-        }
-      }
-      
-      logger.info('Database schema created successfully');
+      logger.info('Minimal database schema created successfully');
     } else {
       logger.info('Database tables already exist');
     }
