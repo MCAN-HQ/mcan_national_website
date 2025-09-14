@@ -14,7 +14,8 @@ router.get('/test-db', async (req, res) => {
     res.json({ success: true, message: 'Database connected successfully' });
   } catch (error) {
     console.error('Database test error:', error);
-    res.status(500).json({ success: false, message: 'Database connection failed', error: error.message });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ success: false, message: 'Database connection failed', error: errorMessage });
   }
 });
 
