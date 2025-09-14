@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 export async function up(knex: Knex): Promise<void> {
-  const schemaPath = path.resolve(process.cwd(), 'database', 'schema.sql');
+  const schemaPath = path.resolve(process.cwd(), '..', 'database', 'schema.sql');
   const sql = fs.readFileSync(schemaPath, 'utf-8');
   await knex.raw(sql);
 }
