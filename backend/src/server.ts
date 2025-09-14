@@ -31,6 +31,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
+// Trust proxy for rate limiting (required for Render)
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet({
   contentSecurityPolicy: {
@@ -178,12 +181,52 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
+// Initialize database tables
+const initializeDatabase = async () => {
+  try {
+    const { db } = await import('./config/database');
+    
+    // Check if users table exists
+    const tableExists = await db.schema.hasTable('users');
+    
+    if (!tableExists) {
+      logger.info('Database tables not found, creating schema...');
+      
+      // Read and execute schema
+      const fs = await import('fs');
+      const path = await import('path');
+      const schemaPath = path.resolve(process.cwd(), '..', 'database', 'schema.sql');
+      const sql = fs.readFileSync(schemaPath, 'utf-8');
+      
+      // Split SQL into individual statements and execute
+      const statements = sql.split(';').filter(stmt => stmt.trim().length > 0);
+      
+      for (const statement of statements) {
+        if (statement.trim()) {
+          await db.raw(statement);
+        }
+      }
+      
+      logger.info('Database schema created successfully');
+    } else {
+      logger.info('Database tables already exist');
+    }
+  } catch (error) {
+    logger.error('Database initialization failed:', error);
+    throw error;
+  }
+};
+
 // Start server
 const startServer = async () => {
   try {
     // Connect to database
     await connectDatabase();
     logger.info('Database connected successfully');
+
+    // Initialize database tables
+    await initializeDatabase();
+    logger.info('Database initialized successfully');
 
     // Connect to Redis (optional)
     const redisConnected = await connectRedis();
