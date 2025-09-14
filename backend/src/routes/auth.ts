@@ -6,6 +6,18 @@ import { authenticate } from '../middleware/auth';
 
 const router = Router();
 
+// Test endpoint to check database connectivity
+router.get('/test-db', async (req, res) => {
+  try {
+    const { db } = await import('../config/database');
+    await db.raw('SELECT 1');
+    res.json({ success: true, message: 'Database connected successfully' });
+  } catch (error) {
+    console.error('Database test error:', error);
+    res.status(500).json({ success: false, message: 'Database connection failed', error: error.message });
+  }
+});
+
 /**
  * @swagger
  * /api/v1/auth/register:
