@@ -106,6 +106,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     } else {
       setResults([]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   const handleSearch = (searchQuery: string) => {

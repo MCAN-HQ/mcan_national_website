@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Card,
@@ -55,7 +55,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
     { name: 'Isha', time: '19:30', icon: <NightsStay />, color: '#673AB7' },
   ];
 
-  const loadPrayerTimes = async () => {
+  const loadPrayerTimes = useCallback(async () => {
     setLoading(true);
     setError(null);
     
@@ -75,7 +75,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [mockPrayerTimes]);
 
   useEffect(() => {
     // Update current time every minute

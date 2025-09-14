@@ -98,6 +98,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ open, onClose }
   useEffect(() => {
     setNotifications(mockNotifications);
     setUnreadCount(mockNotifications.filter(n => !n.read).length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getNotificationIcon = (type: string) => {
