@@ -98,6 +98,15 @@ app.get('/health', (req, res) => {
   });
 });
 
+// Simple test endpoint
+app.get('/test', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Test endpoint working',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // API Documentation
 if (process.env.API_DOCS_ENABLED === 'true') {
   const swaggerOptions = {
@@ -244,13 +253,26 @@ const initializeDatabase = async () => {
 // Start server
 const startServer = async () => {
   try {
-    // Connect to database
-    await connectDatabase();
-    logger.info('Database connected successfully');
+    // Start the server first
+    app.listen(PORT, () => {
+      logger.info(`🚀 MCAN API server running on port ${PORT}`);
+      logger.info(`📚 API Documentation: http://localhost:${PORT}/api-docs`);
+      logger.info(`🏥 Health Check: http://localhost:${PORT}/health`);
+      logger.info(`🌍 Environment: ${NODE_ENV}`);
+    });
 
-    // Initialize database tables
-    await initializeDatabase();
-    logger.info('Database initialized successfully');
+    // Connect to database (async, non-blocking)
+    try {
+      await connectDatabase();
+      logger.info('Database connected successfully');
+
+      // Initialize database tables
+      await initializeDatabase();
+      logger.info('Database initialized successfully');
+    } catch (dbError) {
+      logger.error('Database connection/initialization failed:', dbError);
+      logger.warn('Server running without database - some features may not work');
+    }
 
     // Connect to Redis (optional)
     const redisConnected = await connectRedis();
@@ -259,14 +281,6 @@ const startServer = async () => {
     } else {
       logger.warn('Redis not available, continuing without caching');
     }
-
-    // Start the server
-    app.listen(PORT, () => {
-      logger.info(`🚀 MCAN API server running on port ${PORT}`);
-      logger.info(`📚 API Documentation: http://localhost:${PORT}/api-docs`);
-      logger.info(`🏥 Health Check: http://localhost:${PORT}/health`);
-      logger.info(`🌍 Environment: ${NODE_ENV}`);
-    });
   } catch (error) {
     logger.error('Failed to start server:', error);
     process.exit(1);
