@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   Box,
   Card,
@@ -47,13 +47,13 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
   const [, setCurrentTime] = useState(new Date());
 
   // Mock prayer times - in real app, this would come from an API
-  const mockPrayerTimes = [
+  const mockPrayerTimes = useMemo(() => [
     { name: 'Fajr', time: '05:30', icon: <WbSunny />, color: '#FF9800' },
     { name: 'Dhuhr', time: '12:45', icon: <WbSunny />, color: '#FFC107' },
     { name: 'Asr', time: '15:30', icon: <WbSunny />, color: '#FF5722' },
     { name: 'Maghrib', time: '18:15', icon: <NightsStay />, color: '#9C27B0' },
     { name: 'Isha', time: '19:30', icon: <NightsStay />, color: '#673AB7' },
-  ];
+  ], []);
 
   const loadPrayerTimes = useCallback(async () => {
     setLoading(true);

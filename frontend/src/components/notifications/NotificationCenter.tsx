@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Box,
   Typography,
@@ -99,7 +99,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ open, onClose }
     setNotifications(mockNotifications);
     setUnreadCount(mockNotifications.filter(n => !n.read).length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [mockNotifications]);
 
   const getNotificationIcon = (type: string) => {
     switch (type) {

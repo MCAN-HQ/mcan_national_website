@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Box,
   TextField,
@@ -48,7 +48,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const [loading, setLoading] = useState(false);
 
   // Mock search results - in real app, this would come from an API
-  const mockResults: SearchResult[] = [
+  const mockResults: SearchResult[] = useMemo(() => [
     {
       id: '1',
       title: 'Aisha Ibrahim',
@@ -89,7 +89,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       url: '/prayer-times',
       icon: <LocationOn />,
     },
-  ];
+  ], []);
 
   useEffect(() => {
     if (query.length > 2) {
@@ -106,8 +106,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     } else {
       setResults([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+  }, [query, mockResults]);
 
   const handleSearch = (searchQuery: string) => {
     setQuery(searchQuery);
