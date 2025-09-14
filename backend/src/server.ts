@@ -185,9 +185,13 @@ const startServer = async () => {
     await connectDatabase();
     logger.info('Database connected successfully');
 
-    // Connect to Redis
-    await connectRedis();
-    logger.info('Redis connected successfully');
+    // Connect to Redis (optional)
+    const redisConnected = await connectRedis();
+    if (redisConnected) {
+      logger.info('Redis connected successfully');
+    } else {
+      logger.warn('Redis not available, continuing without caching');
+    }
 
     // Start the server
     app.listen(PORT, () => {

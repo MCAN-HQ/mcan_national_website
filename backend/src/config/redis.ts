@@ -27,8 +27,14 @@ const redisConfig = {
 
 export const redisClient = createClient(redisConfig);
 
-export const connectRedis = async (): Promise<void> => {
+export const connectRedis = async (): Promise<boolean> => {
   try {
+    // Check if Redis URL is provided
+    if (!process.env.REDIS_URL) {
+      logger.warn('Redis URL not provided, skipping Redis connection');
+      return false;
+    }
+
     redisClient.on('error', (err) => {
       logger.error('Redis Client Error:', err);
     });
@@ -47,9 +53,10 @@ export const connectRedis = async (): Promise<void> => {
 
     await redisClient.connect();
     logger.info('Redis connection established successfully');
+    return true;
   } catch (error) {
-    logger.error('Redis connection failed:', error);
-    throw error;
+    logger.warn('Redis connection failed, continuing without Redis:', error);
+    return false;
   }
 };
 
@@ -78,6 +85,9 @@ export const checkRedisHealth = async (): Promise<boolean> => {
 export const cache = {
   async get(key: string): Promise<string | null> {
     try {
+      if (!redisClient.isOpen) {
+        return null;
+      }
       return await redisClient.get(key);
     } catch (error) {
       logger.error('Redis GET error:', error);
@@ -87,6 +97,9 @@ export const cache = {
 
   async set(key: string, value: string, ttl?: number): Promise<boolean> {
     try {
+      if (!redisClient.isOpen) {
+        return false;
+      }
       if (ttl) {
         await redisClient.setEx(key, ttl, value);
       } else {
@@ -101,6 +114,9 @@ export const cache = {
 
   async del(key: string): Promise<boolean> {
     try {
+      if (!redisClient.isOpen) {
+        return false;
+      }
       await redisClient.del(key);
       return true;
     } catch (error) {
@@ -111,6 +127,9 @@ export const cache = {
 
   async exists(key: string): Promise<boolean> {
     try {
+      if (!redisClient.isOpen) {
+        return false;
+      }
       const result = await redisClient.exists(key);
       return result === 1;
     } catch (error) {
@@ -121,6 +140,9 @@ export const cache = {
 
   async expire(key: string, ttl: number): Promise<boolean> {
     try {
+      if (!redisClient.isOpen) {
+        return false;
+      }
       await redisClient.expire(key, ttl);
       return true;
     } catch (error) {
