@@ -166,15 +166,23 @@ if (process.env.API_DOCS_ENABLED === 'true') {
 app.post('/api/v1/auth/register', (req, res) => {
   res.json({
     success: true,
-    message: 'Registration endpoint working - database setup in progress',
+    message: 'Registration successful - database setup in progress',
     data: {
       user: {
-        id: 'temp-id',
+        id: 'temp-id-' + Date.now(),
         fullName: req.body.fullName,
         email: req.body.email,
-        role: 'MEMBER'
+        phone: req.body.phone,
+        role: 'MEMBER',
+        stateCode: req.body.stateCode,
+        nyscNumber: req.body.nyscNumber,
+        deploymentState: req.body.deploymentState,
+        serviceYear: req.body.serviceYear,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       },
-      token: 'temp-token'
+      token: 'temp-token-' + Date.now()
     }
   });
 });
@@ -182,15 +190,23 @@ app.post('/api/v1/auth/register', (req, res) => {
 app.post('/api/v1/auth/login', (req, res) => {
   res.json({
     success: true,
-    message: 'Login endpoint working - database setup in progress',
+    message: 'Login successful - database setup in progress',
     data: {
       user: {
-        id: 'temp-id',
+        id: 'temp-id-' + Date.now(),
         fullName: 'Test User',
         email: req.body.email,
-        role: 'MEMBER'
+        phone: '1234567890',
+        role: 'MEMBER',
+        stateCode: 'LA',
+        nyscNumber: 'LA/2024/123456',
+        deploymentState: 'Lagos',
+        serviceYear: '2024',
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       },
-      token: 'temp-token'
+      token: 'temp-token-' + Date.now()
     }
   });
 });
