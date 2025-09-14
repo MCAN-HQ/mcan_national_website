@@ -87,7 +87,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
     loadPrayerTimes();
 
     return () => clearInterval(timer);
-  }, [location]);
+  }, [location, loadPrayerTimes]);
 
   const handleNotificationToggle = () => {
     if (!notificationsEnabled) {

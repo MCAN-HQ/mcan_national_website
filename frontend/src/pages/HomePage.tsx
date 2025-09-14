@@ -27,7 +27,7 @@ import mcanLogo from '../assets/mcanlogo.jpg';
 
 const HomePage: React.FC = () => {
   const theme = useTheme();
-  const _ = useMediaQuery(theme.breakpoints.down('md'));
+  useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
 
   const stats = [

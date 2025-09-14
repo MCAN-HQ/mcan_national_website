@@ -98,7 +98,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ open, onClose }
   useEffect(() => {
     setNotifications(mockNotifications);
     setUnreadCount(mockNotifications.filter(n => !n.read).length);
-  }, [mockNotifications]);
+  }, []);
 
   const getNotificationIcon = (type: string) => {
     switch (type) {
