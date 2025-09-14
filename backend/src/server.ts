@@ -234,6 +234,9 @@ const initializeDatabase = async () => {
     if (!tableExists) {
       logger.info('Database tables not found, creating minimal schema...');
       
+      // Enable UUID extension
+      await db.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
+      
       // Create users table with minimal schema
       await db.schema.createTable('users', (table) => {
         table.uuid('id').primary().defaultTo(db.raw('uuid_generate_v4()'));
