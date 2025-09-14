@@ -103,8 +103,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
 
-  // Check if user account is active
-  if (!user.isActive) {
+  // Check if user account is active (default to true if not specified)
+  if (user.isActive === false) {
     return (
       <Box
         sx={{
