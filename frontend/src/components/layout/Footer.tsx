@@ -32,11 +32,11 @@ const Footer: React.FC = () => {
   ];
 
   const services = [
-    { label: 'e-ID Card Generation', path: '/services/eid' },
-    { label: 'Payment System', path: '/services/payment' },
-    { label: 'Property Management', path: '/services/properties' },
-    { label: 'Support Marketplace', path: '/services/marketplace' },
-    { label: 'Islamic Resources', path: '/services/resources' },
+    { label: 'e-ID Card Generation', path: '/services' },
+    { label: 'Payment System', path: '/services' },
+    { label: 'Property Management', path: '/services' },
+    { label: 'Support Marketplace', path: '/services' },
+    { label: 'Islamic Resources', path: '/prayer-times' },
   ];
 
   const socialLinks = [

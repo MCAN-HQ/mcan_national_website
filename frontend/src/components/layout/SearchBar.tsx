@@ -78,7 +78,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       title: 'Islamic Education Program',
       description: 'Weekly Islamic classes',
       type: 'service',
-      url: '/services/islamic-education',
+      url: '/services',
       icon: <School />,
     },
     {
