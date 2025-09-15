@@ -1,4 +1,5 @@
 import express from 'express';
+import multer from 'multer';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -162,6 +163,13 @@ if (process.env.API_DOCS_ENABLED === 'true') {
 // app.use('/api/v1/marketplace', marketplaceRoutes);
 // app.use('/api/v1/dashboard', dashboardRoutes);
 
+// Auth and authorization middleware
+import { authenticate } from './middleware/auth';
+import { authorize } from './middleware/authorize';
+
+// File upload setup (memory storage; replace with Cloudinary/S3 later)
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
+
 // Temporary simple auth endpoint for testing
 app.post('/api/v1/auth/register', (req, res) => {
   res.json({
@@ -264,6 +272,126 @@ app.get('/api/v1/properties', (req, res) => {
   res.json({ success: true, message: 'Properties fetched', data: filtered });
 });
 
+// Create property (protected: State/National roles)
+app.post(
+  '/api/v1/properties',
+  authenticate,
+  authorize(['SUPER_ADMIN', 'NATIONAL_ADMIN', 'STATE_AMEER', 'STATE_SECRETARY']),
+  express.json(),
+  async (req, res) => {
+    try {
+      const { db } = await import('./config/database');
+      const payload = req.body || {};
+      // State-bound enforcement: state users can only create in their state
+      const requesterState = req.user?.deploymentState || req.user?.stateCode;
+      if (req.user?.role?.startsWith('STATE') && payload.state && requesterState && payload.state !== requesterState) {
+        return res.status(403).json({ success: false, message: 'Cannot create properties outside your state' });
+      }
+      const [created] = await db('properties')
+        .insert({
+          name: payload.name,
+          type: payload.type || 'OTHER',
+          state: payload.state || requesterState,
+          location: payload.location,
+          capacity: payload.capacity,
+          condition: payload.condition,
+          manager: payload.manager,
+          status: payload.status || 'ACTIVE',
+          ownership: payload.ownership || 'MCAN',
+        })
+        .returning(['id', 'name', 'type', 'state', 'location', 'capacity', 'condition', 'manager', 'status', 'ownership', 'created_at', 'updated_at']);
+      res.json({ success: true, message: 'Property created', data: created });
+    } catch (e) {
+      res.status(500).json({ success: false, message: 'Failed to create property' });
+    }
+  }
+);
+
+// Update property (protected)
+app.put(
+  '/api/v1/properties/:id',
+  authenticate,
+  authorize(['SUPER_ADMIN', 'NATIONAL_ADMIN', 'STATE_AMEER', 'STATE_SECRETARY']),
+  express.json(),
+  async (req, res) => {
+    try {
+      const { db } = await import('./config/database');
+      const id = req.params.id;
+      const updates = req.body || {};
+      // Enforce state scoping
+      if (req.user?.role?.startsWith('STATE')) {
+        const prop = await db('properties').where({ id }).first();
+        const requesterState = req.user?.deploymentState || req.user?.stateCode;
+        if (!prop || prop.state !== requesterState) {
+          return res.status(403).json({ success: false, message: 'Cannot update properties outside your state' });
+        }
+      }
+      const [updated] = await db('properties')
+        .where({ id })
+        .update({
+          name: updates.name,
+          type: updates.type,
+          state: updates.state,
+          location: updates.location,
+          capacity: updates.capacity,
+          condition: updates.condition,
+          manager: updates.manager,
+          status: updates.status,
+          ownership: updates.ownership,
+          updated_at: db.fn.now(),
+        })
+        .returning(['id', 'name', 'type', 'state', 'location', 'capacity', 'condition', 'manager', 'status', 'ownership', 'created_at', 'updated_at']);
+      res.json({ success: true, message: 'Property updated', data: updated });
+    } catch (e) {
+      res.status(500).json({ success: false, message: 'Failed to update property' });
+    }
+  }
+);
+
+// Upload property files (protected)
+app.post(
+  '/api/v1/properties/:id/files',
+  authenticate,
+  authorize(['SUPER_ADMIN', 'NATIONAL_ADMIN', 'STATE_AMEER', 'STATE_SECRETARY']),
+  upload.array('files', 5),
+  async (req, res) => {
+    try {
+      const { db } = await import('./config/database');
+      const id = req.params.id;
+
+      // Enforce state scoping for state roles
+      if (req.user?.role?.startsWith('STATE')) {
+        const prop = await db('properties').where({ id }).first();
+        const requesterState = req.user?.deploymentState || req.user?.stateCode;
+        if (!prop || prop.state !== requesterState) {
+          return res.status(403).json({ success: false, message: 'Cannot upload files for properties outside your state' });
+        }
+      }
+
+      // For now, we simulate upload by generating placeholder URLs
+      const files = (req.files as Express.Multer.File[] | undefined) || [];
+      const records = await Promise.all(
+        files.map(async (f) => {
+          const [rec] = await db('property_files')
+            .insert({
+              property_id: id,
+              file_name: f.originalname,
+              file_type: f.mimetype,
+              url: `https://files.example.com/mock/${encodeURIComponent(f.originalname)}`,
+              uploaded_by: req.user?.fullName || 'Unknown',
+            })
+            .returning(['id', 'file_name', 'file_type', 'url', 'created_at']);
+          return rec;
+        })
+      );
+
+      res.json({ success: true, message: 'Files uploaded', data: records });
+    } catch (e) {
+      res.status(500).json({ success: false, message: 'Failed to upload files' });
+    }
+  }
+);
+
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({
@@ -344,6 +472,38 @@ const initializeDatabase = async () => {
         table.timestamp('next_payment_date');
         table.timestamps(true, true);
       });
+
+      // Create properties table
+      const hasProperties = await db.schema.hasTable('properties');
+      if (!hasProperties) {
+        await db.schema.createTable('properties', (table) => {
+          table.uuid('id').primary().defaultTo(db.raw('uuid_generate_v4()'));
+          table.string('name', 255).notNullable();
+          table.enu('type', ['LODGE', 'BUS', 'MASJID', 'OTHER']).notNullable().defaultTo('OTHER');
+          table.string('state', 100).notNullable();
+          table.string('location', 500).notNullable();
+          table.integer('capacity');
+          table.enu('condition', ['EXCELLENT', 'GOOD', 'FAIR', 'POOR']);
+          table.string('manager', 255);
+          table.enu('status', ['ACTIVE', 'UNDER_MAINTENANCE', 'UNAVAILABLE']).notNullable().defaultTo('ACTIVE');
+          table.enu('ownership', ['MCAN', 'LEASED', 'DONATED']).notNullable().defaultTo('MCAN');
+          table.timestamps(true, true);
+        });
+      }
+
+      // Create property_files table
+      const hasPropertyFiles = await db.schema.hasTable('property_files');
+      if (!hasPropertyFiles) {
+        await db.schema.createTable('property_files', (table) => {
+          table.uuid('id').primary().defaultTo(db.raw('uuid_generate_v4()'));
+          table.uuid('property_id').notNullable().references('id').inTable('properties').onDelete('CASCADE');
+          table.string('file_name', 255).notNullable();
+          table.string('file_type', 100).notNullable();
+          table.string('url', 1000).notNullable();
+          table.string('uploaded_by', 255);
+          table.timestamps(true, true);
+        });
+      }
       
       logger.info('Minimal database schema created successfully');
     } else {
