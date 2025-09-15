@@ -14,7 +14,7 @@ export interface ListParams {
 }
 
 export const propertyService = {
-  async list(params: ListParams = []) {
+  async list(params: ListParams = {}) {
     const res = await api.get('/properties', { params });
     return res.data.data || [];
   },
