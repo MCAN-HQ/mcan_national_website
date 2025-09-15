@@ -211,6 +211,59 @@ app.post('/api/v1/auth/login', (req, res) => {
   });
 });
 
+// Temporary properties endpoints for UI integration
+app.get('/api/v1/properties', (req, res) => {
+  const { state, type, q } = req.query as { state?: string; type?: string; q?: string };
+
+  const sample = [
+    {
+      id: 'p-1',
+      name: 'MCAN Lodge - Ikeja',
+      type: 'LODGE',
+      state: 'Lagos',
+      location: '12 Unity Street, Ikeja, Lagos',
+      capacity: 60,
+      condition: 'GOOD',
+      manager: 'AbdulRahman Yusuf',
+      status: 'ACTIVE',
+      ownership: 'MCAN',
+      lastUpdated: new Date().toISOString(),
+    },
+    {
+      id: 'p-2',
+      name: 'MCAN Community Masjid - Kano',
+      type: 'MASJID',
+      state: 'Kano',
+      location: 'Hadejia Road, Kano City',
+      status: 'ACTIVE',
+      ownership: 'DONATED',
+      condition: 'EXCELLENT',
+      lastUpdated: new Date().toISOString(),
+    },
+    {
+      id: 'p-3',
+      name: 'MCAN State Bus - Kaduna',
+      type: 'BUS',
+      state: 'Kaduna',
+      location: 'Kaduna Secretariat',
+      status: 'UNDER_MAINTENANCE',
+      ownership: 'MCAN',
+      manager: 'Zainab S.',
+      lastUpdated: new Date().toISOString(),
+    },
+  ];
+
+  let filtered = sample;
+  if (state) filtered = filtered.filter((p) => p.state.toLowerCase() === String(state).toLowerCase());
+  if (type) filtered = filtered.filter((p) => p.type.toLowerCase() === String(type).toLowerCase());
+  if (q) {
+    const term = String(q).toLowerCase();
+    filtered = filtered.filter((p) => p.name.toLowerCase().includes(term) || p.location.toLowerCase().includes(term));
+  }
+
+  res.json({ success: true, message: 'Properties fetched', data: filtered });
+});
+
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({

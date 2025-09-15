@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import MembershipPage from './pages/MembershipPage';
 import ServicesPage from './pages/ServicesPage';
+import PropertyManagementPage from './pages/services/PropertyManagementPage';
 import StatesPage from './pages/StatesPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/auth/LoginPage';
@@ -44,6 +45,7 @@ const AppContent: React.FC = () => {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/membership" element={<MembershipPage />} />
           <Route path="/services" element={<ServicesPage />} />
+          <Route path="/services/properties" element={<PropertyManagementPage />} />
           <Route path="/states" element={<StatesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/prayer-times" element={<PrayerTimesPage />} />
