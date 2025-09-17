@@ -68,8 +68,18 @@ body {
 }
 
 /* Smooth transitions */
-* {
-  transition: all 0.3s ease;
+/* Avoid global transitions which can hurt mobile performance */
+/* Component-level transitions are already defined via MUI */
+
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent layout shift on small screens */
+html, body, #root {
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /* Focus styles for accessibility */
