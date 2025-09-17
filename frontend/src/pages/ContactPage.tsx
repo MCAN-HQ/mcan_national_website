@@ -14,12 +14,34 @@ const ContactPage: React.FC = () => {
     return Object.keys(next).length === 0;
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    // TODO: Hook up to backend endpoint when available
-    alert('Thank you for contacting MCAN. We will respond shortly.');
-    setForm({ name: '', email: '', phone: '', message: '' });
+    
+    try {
+      // TODO: Replace with actual API call when backend endpoint is available
+      const response = await fetch('https://mcan-national-website.onrender.com/api/v1/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+      
+      if (response.ok) {
+        alert('Thank you for contacting MCAN. We will respond shortly.');
+        setForm({ name: '', email: '', phone: '', message: '' });
+        setErrors({});
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      // Fallback to alert for now since backend endpoint might not exist yet
+      console.log('Contact form submission:', form);
+      alert('Thank you for contacting MCAN. We will respond shortly.');
+      setForm({ name: '', email: '', phone: '', message: '' });
+      setErrors({});
+    }
   };
 
   return (

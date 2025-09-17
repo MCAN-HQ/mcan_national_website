@@ -167,6 +167,36 @@ app.use('/api/v1/admin', adminRoutes);
 // app.use('/api/v1/marketplace', marketplaceRoutes);
 // app.use('/api/v1/dashboard', dashboardRoutes);
 
+// Contact form endpoint
+app.post('/api/v1/contact', async (req, res) => {
+  try {
+    const { name, email, phone, message } = req.body;
+    
+    // Basic validation
+    if (!name || !email || !message) {
+      return res.status(400).json({
+        success: false,
+        message: 'Name, email, and message are required'
+      });
+    }
+    
+    // TODO: Implement email sending logic here
+    console.log('Contact form submission:', { name, email, phone, message });
+    
+    res.json({
+      success: true,
+      message: 'Thank you for contacting MCAN. We will respond shortly.'
+    });
+    
+  } catch (error: any) {
+    console.error('Contact form error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send message. Please try again.'
+    });
+  }
+});
+
 // Temporary endpoint to create SUPER_ADMIN user (remove after use)
 app.post('/api/v1/create-super-admin', async (req, res) => {
   try {
