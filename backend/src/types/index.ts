@@ -333,6 +333,7 @@ import type { Request as ExpressRequest } from 'express';
 
 export interface AuthenticatedRequest extends ExpressRequest {
   user?: User;
+  files?: { [fieldname: string]: Express.Multer.File[] } | Express.Multer.File[] | undefined;
 }
 
 // Database Query Options
