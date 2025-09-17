@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { ThemeProvider, createTheme, Theme } from '@mui/material/styles';
+import { ThemeProvider, createTheme, Theme, responsiveFontSizes } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
 interface ThemeContextType {
@@ -28,7 +28,7 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
     setDarkMode(!darkMode);
   };
 
-  const theme = createTheme({
+  let theme = createTheme({
     palette: {
       mode: darkMode ? 'dark' : 'light',
       primary: {
@@ -116,6 +116,9 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
       },
     },
   });
+
+  // Enable responsive typography scaling across breakpoints
+  theme = responsiveFontSizes(theme);
 
   return (
     <ThemeContext.Provider value={{ darkMode, toggleDarkMode, theme }}>
