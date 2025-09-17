@@ -1,4 +1,5 @@
 import express from 'express';
+import type { Response } from 'express';
 import multer from 'multer';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -24,6 +25,7 @@ import paymentRoutes from './routes/payments';
 import propertyRoutes from './routes/properties';
 import marketplaceRoutes from './routes/marketplace';
 import dashboardRoutes from './routes/dashboard';
+import type { AuthenticatedRequest } from './types';
 
 // Load environment variables
 dotenv.config();
@@ -154,8 +156,8 @@ if (process.env.API_DOCS_ENABLED === 'true') {
   }));
 }
 
-// API Routes (temporarily disabled until database is working)
-// app.use('/api/v1/auth', authRoutes);
+// API Routes
+app.use('/api/v1/auth', authRoutes);
 // app.use('/api/v1/users', userRoutes);
 // app.use('/api/v1/members', memberRoutes);
 // app.use('/api/v1/payments', paymentRoutes);
@@ -278,7 +280,7 @@ app.post(
   authenticate,
   authorize(['SUPER_ADMIN', 'NATIONAL_ADMIN', 'STATE_AMEER', 'STATE_SECRETARY']),
   express.json(),
-  async (req, res) => {
+  async (req: AuthenticatedRequest, res: Response) => {
     try {
       const { db } = await import('./config/database');
       const payload = req.body || {};
@@ -300,9 +302,9 @@ app.post(
           ownership: payload.ownership || 'MCAN',
         })
         .returning(['id', 'name', 'type', 'state', 'location', 'capacity', 'condition', 'manager', 'status', 'ownership', 'created_at', 'updated_at']);
-      res.json({ success: true, message: 'Property created', data: created });
+      return res.json({ success: true, message: 'Property created', data: created });
     } catch (e) {
-      res.status(500).json({ success: false, message: 'Failed to create property' });
+      return res.status(500).json({ success: false, message: 'Failed to create property' });
     }
   }
 );
@@ -313,7 +315,7 @@ app.put(
   authenticate,
   authorize(['SUPER_ADMIN', 'NATIONAL_ADMIN', 'STATE_AMEER', 'STATE_SECRETARY']),
   express.json(),
-  async (req, res) => {
+  async (req: AuthenticatedRequest, res: Response) => {
     try {
       const { db } = await import('./config/database');
       const id = req.params.id;
@@ -341,9 +343,9 @@ app.put(
           updated_at: db.fn.now(),
         })
         .returning(['id', 'name', 'type', 'state', 'location', 'capacity', 'condition', 'manager', 'status', 'ownership', 'created_at', 'updated_at']);
-      res.json({ success: true, message: 'Property updated', data: updated });
+      return res.json({ success: true, message: 'Property updated', data: updated });
     } catch (e) {
-      res.status(500).json({ success: false, message: 'Failed to update property' });
+      return res.status(500).json({ success: false, message: 'Failed to update property' });
     }
   }
 );
@@ -354,7 +356,7 @@ app.post(
   authenticate,
   authorize(['SUPER_ADMIN', 'NATIONAL_ADMIN', 'STATE_AMEER', 'STATE_SECRETARY']),
   upload.array('files', 5),
-  async (req, res) => {
+  async (req: AuthenticatedRequest, res: Response) => {
     try {
       const { db } = await import('./config/database');
       const id = req.params.id;
@@ -385,9 +387,9 @@ app.post(
         })
       );
 
-      res.json({ success: true, message: 'Files uploaded', data: records });
+      return res.json({ success: true, message: 'Files uploaded', data: records });
     } catch (e) {
-      res.status(500).json({ success: false, message: 'Failed to upload files' });
+      return res.status(500).json({ success: false, message: 'Failed to upload files' });
     }
   }
 );
