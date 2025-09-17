@@ -18,6 +18,7 @@ import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import ResetPasswordPage from './pages/auth/ResetPasswordPage';
+import AdminDashboard from './pages/admin/AdminDashboard';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import ProfilePage from './pages/dashboard/ProfilePage';
 import PrayerTimesPage from './pages/PrayerTimesPage';
@@ -76,6 +77,14 @@ const AppContent: React.FC = () => {
             element={
               <ProtectedRoute>
                 <DashboardPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin" 
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
               </ProtectedRoute>
             } 
           />
