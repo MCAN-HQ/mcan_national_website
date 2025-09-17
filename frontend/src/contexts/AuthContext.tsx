@@ -84,12 +84,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     toast.success('Logged out successfully');
   };
 
+  const forgotPassword = async (email: string): Promise<void> => {
+    try {
+      await authService.forgotPassword(email);
+      toast.success('Password reset email sent!');
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || 'Failed to send reset email';
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+  const resetPassword = async (token: string, newPassword: string): Promise<void> => {
+    try {
+      await authService.resetPassword(token, newPassword);
+      toast.success('Password reset successfully!');
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || 'Failed to reset password';
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
   const value: AuthContextType = {
     user,
     token,
     login,
     register,
     logout,
+    forgotPassword,
+    resetPassword,
     isLoading,
     isAuthenticated: !!user && !!token,
   };
