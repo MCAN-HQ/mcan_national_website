@@ -34,7 +34,6 @@ import {
   Add,
   Edit,
   Delete,
-  PersonAdd,
   AdminPanelSettings,
   People,
   Security,
@@ -69,7 +68,6 @@ const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
   const [tabValue, setTabValue] = useState(0);
   const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(false);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -173,14 +171,11 @@ const AdminDashboard: React.FC = () => {
 
   const loadUsers = async () => {
     try {
-      setLoading(true);
       const usersData = await adminService.getAllUsers();
       setUsers(usersData);
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || 'Failed to load users';
       setSnackbar({ open: true, message: errorMessage, severity: 'error' });
-    } finally {
-      setLoading(false);
     }
   };
 
