@@ -373,9 +373,9 @@ app.post(
       }
 
       // For now, we simulate upload by generating placeholder URLs
-      const files = (req.files as Express.Multer.File[] | undefined) || [];
+      const files = (req.files as any) || [];
       const records = await Promise.all(
-        files.map(async (f) => {
+        files.map(async (f: any) => {
           const [rec] = await db('property_files')
             .insert({
               property_id: id,
