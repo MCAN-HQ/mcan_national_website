@@ -167,6 +167,70 @@ app.use('/api/v1/admin', adminRoutes);
 // app.use('/api/v1/marketplace', marketplaceRoutes);
 // app.use('/api/v1/dashboard', dashboardRoutes);
 
+// Temporary endpoint to create SUPER_ADMIN user (remove after use)
+app.post('/api/v1/create-super-admin', async (req, res) => {
+  try {
+    const { db } = await import('./config/database');
+    const bcrypt = await import('bcryptjs');
+    const { v4: uuidv4 } = await import('uuid');
+    
+    // Check if SUPER_ADMIN already exists
+    const existingAdmin = await db('users').where('role', 'SUPER_ADMIN').first();
+    
+    if (existingAdmin) {
+      return res.json({
+        success: true,
+        message: 'SUPER_ADMIN already exists',
+        data: {
+          id: existingAdmin.id,
+          email: existingAdmin.email,
+          role: existingAdmin.role
+        }
+      });
+    }
+    
+    // Create SUPER_ADMIN user
+    const superAdminId = uuidv4();
+    const passwordHash = await bcrypt.hash('Admin123!', 12);
+    
+    const newAdmin = {
+      id: superAdminId,
+      email: 'admin@mcan.org.ng',
+      full_name: 'MCAN Super Administrator',
+      phone: '+2348000000000',
+      password_hash: passwordHash,
+      role: 'SUPER_ADMIN',
+      state_code: 'FCT',
+      deployment_state: 'Federal Capital Territory',
+      service_year: '2024',
+      is_active: true,
+      is_email_verified: true,
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
+    
+    await db('users').insert(newAdmin);
+    
+    return res.json({
+      success: true,
+      message: 'SUPER_ADMIN user created successfully',
+      data: {
+        id: newAdmin.id,
+        email: newAdmin.email,
+        role: newAdmin.role
+      }
+    });
+    
+  } catch (error: any) {
+    console.error('Error creating SUPER_ADMIN:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to create SUPER_ADMIN user',
+      error: error.message
+    });
+  }
+});
+
 // Auth and authorization middleware
 import { authenticate } from './middleware/auth';
 import { authorize } from './middleware/authorize';
