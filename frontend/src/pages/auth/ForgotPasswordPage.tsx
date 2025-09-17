@@ -14,7 +14,7 @@ import {
   ArrowBack,
 } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import { toast } from 'react-hot-toast';
 
@@ -25,7 +25,6 @@ interface ForgotPasswordFormData {
 const ForgotPasswordPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
-  const navigate = useNavigate();
 
   const {
     register,
