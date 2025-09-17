@@ -150,6 +150,34 @@ export const marketplaceValidation = {
   }),
 };
 
+export const adminValidation = {
+  createUser: Joi.object({
+    fullName: Joi.string().min(2).max(100).required(),
+    email: Joi.string().email().required(),
+    phone: Joi.string().pattern(/^\+?[1-9]\d{1,14}$/).required(),
+    role: Joi.string().valid('MEMBER', 'MCLO_AMEER', 'STATE_SECRETARY', 'STATE_AMEER', 'NATIONAL_ADMIN').required(),
+    stateCode: Joi.string().optional(),
+    deploymentState: Joi.string().optional(),
+    serviceYear: Joi.string().optional(),
+    password: Joi.string().min(6).optional(),
+  }),
+
+  updateUser: Joi.object({
+    fullName: Joi.string().min(2).max(100).optional(),
+    email: Joi.string().email().optional(),
+    phone: Joi.string().pattern(/^\+?[1-9]\d{1,14}$/).optional(),
+    role: Joi.string().valid('MEMBER', 'MCLO_AMEER', 'STATE_SECRETARY', 'STATE_AMEER', 'NATIONAL_ADMIN').optional(),
+    stateCode: Joi.string().optional(),
+    deploymentState: Joi.string().optional(),
+    serviceYear: Joi.string().optional(),
+    isActive: Joi.boolean().optional(),
+  }),
+
+  resetPassword: Joi.object({
+    newPassword: Joi.string().min(6).required(),
+  }),
+};
+
 export default {
   authValidation,
   userValidation,
