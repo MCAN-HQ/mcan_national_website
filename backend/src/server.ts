@@ -183,14 +183,14 @@ app.post('/api/v1/contact', async (req, res) => {
     // TODO: Implement email sending logic here
     console.log('Contact form submission:', { name, email, phone, message });
     
-    res.json({
+    return res.json({
       success: true,
       message: 'Thank you for contacting MCAN. We will respond shortly.'
     });
     
   } catch (error: any) {
     console.error('Contact form error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'Failed to send message. Please try again.'
     });
