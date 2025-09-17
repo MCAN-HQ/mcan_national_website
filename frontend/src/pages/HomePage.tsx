@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Container,
@@ -10,6 +10,14 @@ import {
   Avatar,
   useTheme,
   useMediaQuery,
+  Chip,
+  Stack,
+  IconButton,
+  Fade,
+  Slide,
+  Zoom,
+  Paper,
+  Divider,
 } from '@mui/material';
 import {
   People,
@@ -20,58 +28,118 @@ import {
   Security,
   Support,
   School,
+  ArrowForward,
+  PlayArrow,
+  CheckCircle,
+  Mosque,
+  DirectionsBus,
+  HomeWork,
+  Phone,
+  Email,
+  Facebook,
+  Twitter,
+  Instagram,
+  LinkedIn,
+  MenuBook,
+  Group,
+  Speed,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import mcanLogo from '../assets/mcanlogo.jpg';
 
 const HomePage: React.FC = () => {
   const theme = useTheme();
-  useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   const stats = [
-    { label: 'Active Members', value: '15,000+', icon: <People />, color: '#4CAF50' },
-    { label: 'State Chapters', value: '37', icon: <LocationOn />, color: '#2196F3' },
-    { label: 'Years of Service', value: '45+', icon: <Star />, color: '#FF9800' },
-    { label: 'Properties Managed', value: '200+', icon: <Business />, color: '#9C27B0' },
+    { 
+      label: 'Active Members', 
+      value: '15,000+', 
+      icon: <People sx={{ fontSize: 40 }} />, 
+      gradient: 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)',
+      description: 'Muslim Corps Members'
+    },
+    { 
+      label: 'State Chapters', 
+      value: '37', 
+      icon: <LocationOn sx={{ fontSize: 40 }} />, 
+      gradient: 'linear-gradient(135deg, #2196F3 0%, #64B5F6 100%)',
+      description: 'Across Nigeria'
+    },
+    { 
+      label: 'Years of Service', 
+      value: '45+', 
+      icon: <Star sx={{ fontSize: 40 }} />, 
+      gradient: 'linear-gradient(135deg, #FF9800 0%, #FFB74D 100%)',
+      description: 'Dedicated Service'
+    },
+    { 
+      label: 'Properties Managed', 
+      value: '200+', 
+      icon: <Business sx={{ fontSize: 40 }} />, 
+      gradient: 'linear-gradient(135deg, #9C27B0 0%, #BA68C8 100%)',
+      description: 'Lodges, Buses & Masjids'
+    },
   ];
 
   const features = [
     {
       title: 'Digital e-ID Cards',
-      description: 'Generate and manage your MCAN digital identity card with QR code verification.',
-      icon: <Security />,
-      color: '#4CAF50',
+      description: 'Generate and manage your MCAN digital identity card with QR code verification and blockchain security.',
+      icon: <Security sx={{ fontSize: 48 }} />,
+      gradient: 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)',
+      benefits: ['QR Code Verification', 'Blockchain Security', 'Instant Generation', 'Mobile Access']
     },
     {
-      title: 'Payment Management',
-      description: 'Consent-based monthly deduction system with transparent financial tracking.',
-      icon: <TrendingUp />,
-      color: '#2196F3',
+      title: 'Smart Payment System',
+      description: 'Consent-based monthly deduction system with transparent financial tracking and real-time analytics.',
+      icon: <TrendingUp sx={{ fontSize: 48 }} />,
+      gradient: 'linear-gradient(135deg, #2196F3 0%, #64B5F6 100%)',
+      benefits: ['Auto Deduction', 'Real-time Analytics', 'Transparent Tracking', 'Mobile Payments']
     },
     {
       title: 'Property Management',
-      description: 'Comprehensive property documentation and management across all state chapters.',
-      icon: <Business />,
-      color: '#FF9800',
+      description: 'Comprehensive management of MCAN properties including lodges, buses, masjids with IoT integration.',
+      icon: <Business sx={{ fontSize: 48 }} />,
+      gradient: 'linear-gradient(135deg, #FF9800 0%, #FFB74D 100%)',
+      benefits: ['IoT Integration', 'Real-time Monitoring', 'Maintenance Tracking', 'Booking System']
     },
     {
-      title: 'Support Marketplace',
-      description: 'Access essential items and services through our integrated marketplace platform.',
-      icon: <Support />,
-      color: '#9C27B0',
+      title: '24/7 Member Support',
+      description: 'AI-powered support system with human backup for all MCAN members across Nigeria.',
+      icon: <Support sx={{ fontSize: 48 }} />,
+      gradient: 'linear-gradient(135deg, #9C27B0 0%, #BA68C8 100%)',
+      benefits: ['AI Chatbot', 'Human Support', 'Multi-language', 'Quick Response']
+    },
+  ];
+
+  const services = [
+    {
+      title: 'Lodges',
+      description: 'State-managed accommodation facilities',
+      icon: <HomeWork sx={{ fontSize: 32 }} />,
+      count: '50+',
+      color: 'primary'
     },
     {
-      title: 'Islamic Resources',
-      description: 'Access to Islamic education, prayer times, and community resources.',
-      icon: <School />,
-      color: '#E91E63' },
+      title: 'Transportation',
+      description: 'Transport assets and logistics',
+      icon: <DirectionsBus sx={{ fontSize: 32 }} />,
+      count: '30+',
+      color: 'secondary'
+    },
     {
-      title: 'State Coordination',
-      description: 'Seamless coordination between national, state, and local chapter leadership.',
-      icon: <LocationOn />,
-      color: '#607D8B',
+      title: 'Masjids',
+      description: 'Prayer spaces and Islamic centers',
+      icon: <Mosque sx={{ fontSize: 32 }} />,
+      count: '25+',
+      color: 'success'
     },
   ];
 
@@ -79,280 +147,482 @@ const HomePage: React.FC = () => {
     {
       name: 'Aisha Ibrahim',
       role: 'Corps Member, Lagos State',
-      content: 'MCAN has been instrumental in my NYSC journey. The support and community are amazing!',
+      content: 'MCAN has revolutionized how we manage our NYSC experience. The digital platform makes everything so seamless!',
       avatar: 'AI',
+      rating: 5
     },
     {
-      name: 'Muhammad Hassan',
-      role: 'State Secretary, Kano',
-      content: 'The digital platform has revolutionized how we manage our state chapter operations.',
-      avatar: 'MH',
+      name: 'Hassan Musa',
+      role: 'State Secretary, Abuja',
+      content: 'The property management system has made our work so much easier. We can track everything in real-time.',
+      avatar: 'HM',
+      rating: 5
     },
     {
-      name: 'Fatima Usman',
-      role: 'MCLO Ameer, Abuja',
-      content: 'The e-ID system and payment management have made everything so much easier.',
-      avatar: 'FU',
+      name: 'Fatima Bello',
+      role: 'Corps Member, Kano',
+      content: 'The support system is amazing. I got help within minutes when I needed assistance with my accommodation.',
+      avatar: 'FB',
+      rating: 5
     },
   ];
 
   return (
-    <Box>
+    <Box sx={{ minHeight: '100vh' }}>
       {/* Hero Section */}
       <Box
         sx={{
-          background: `
-            linear-gradient(135deg, rgba(46, 125, 50, 0.9) 0%, rgba(76, 175, 80, 0.8) 100%),
-            url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="islamic" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23islamic)"/></svg>')
-          `,
-          minHeight: '80vh',
-          display: 'flex',
-          alignItems: 'center',
+          background: theme.palette.mode === 'dark' 
+            ? 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%)'
+            : 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
           color: 'white',
           position: 'relative',
           overflow: 'hidden',
+          py: { xs: 8, md: 12 },
         }}
       >
-        <Container maxWidth="lg">
+        {/* Background Pattern */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: `
+              radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.08) 0%, transparent 50%)
+            `,
+            zIndex: 1,
+          }}
+        />
+        
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} md={6}>
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-              >
-                <Typography
-                  variant="h1"
-                  sx={{
-                    fontSize: { xs: '2.5rem', md: '3.5rem' },
-                    fontWeight: 'bold',
-                    mb: 2,
-                    textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
-                  }}
-                >
-                  Serving Islam through the Nation
-                </Typography>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    mb: 3,
-                    opacity: 0.9,
-                    fontWeight: 300,
-                  }}
-                >
-                  Muslim Corpers Association of Nigeria
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    mb: 4,
-                    fontSize: '1.1rem',
-                    lineHeight: 1.6,
-                    opacity: 0.8,
-                  }}
-                >
-                  Uniting Muslim Corps Members across Nigeria's 36 states and FCT since 1978. 
-                  Join our community and be part of a legacy of service, unity, and Islamic values.
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    onClick={() => navigate('/register')}
+              <Fade in={isVisible} timeout={1000}>
+                <Box>
+                  <Chip
+                    label="Serving Islam Through the Nation"
                     sx={{
-                      backgroundColor: '#FFD54F',
-                      color: '#1B5E20',
-                      fontWeight: 'bold',
-                      px: 4,
-                      py: 1.5,
-                      '&:hover': {
-                        backgroundColor: '#FFC107',
-                        transform: 'translateY(-2px)',
-                      },
-                    }}
-                  >
-                    Join MCAN
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="large"
-                    onClick={() => navigate('/about')}
-                    sx={{
-                      borderColor: 'white',
+                      background: 'rgba(255, 255, 255, 0.2)',
                       color: 'white',
-                      px: 4,
-                      py: 1.5,
-                      '&:hover': {
-                        backgroundColor: 'rgba(255,255,255,0.1)',
-                        borderColor: 'white',
-                      },
-                    }}
-                  >
-                    Learn More
-                  </Button>
-                </Box>
-              </motion.div>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <Box
-                  sx={{
-                    textAlign: 'center',
-                    p: 4,
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                    borderRadius: 3,
-                    backdropFilter: 'blur(10px)',
-                  }}
-                >
-                  <Box
-                    component="img"
-                    src={mcanLogo}
-                    alt="MCAN Logo"
-                    sx={{
-                      height: 80,
-                      width: 'auto',
-                      mb: 2,
-                      borderRadius: 2,
-                      boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+                      fontWeight: 600,
+                      mb: 3,
+                      backdropFilter: 'blur(10px)',
                     }}
                   />
-                  <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
-                    MCAN Statistics
+                  
+                  <Typography
+                    variant="h1"
+                    sx={{
+                      fontSize: { xs: '2.5rem', md: '4rem' },
+                      fontWeight: 800,
+                      lineHeight: 1.1,
+                      mb: 3,
+                      background: 'linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%)',
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                    }}
+                  >
+                    Muslim Corpers Association of Nigeria
                   </Typography>
-                  <Grid container spacing={2}>
-                    {stats.map((stat, index) => (
-                      <Grid item xs={6} key={index}>
-                        <Box sx={{ textAlign: 'center' }}>
-                          <Avatar
-                            sx={{
-                              backgroundColor: stat.color,
-                              width: 60,
-                              height: 60,
-                              mx: 'auto',
-                              mb: 1,
-                            }}
-                          >
-                            {stat.icon}
-                          </Avatar>
-                          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 0.5 }}>
-                            {stat.value}
-                          </Typography>
-                          <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                            {stat.label}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                    ))}
-                  </Grid>
+                  
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      mb: 4,
+                      opacity: 0.9,
+                      fontWeight: 400,
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    Empowering Muslim Corps Members across Nigeria with digital solutions, 
+                    community support, and comprehensive services for a fulfilling NYSC experience.
+                  </Typography>
+                  
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      endIcon={<ArrowForward />}
+                      onClick={() => navigate('/register')}
+                      sx={{
+                        background: 'linear-gradient(135deg, #FF8F00 0%, #FFB74D 100%)',
+                        color: 'white',
+                        px: 4,
+                        py: 1.5,
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        borderRadius: 3,
+                        boxShadow: '0 8px 25px rgba(255, 143, 0, 0.3)',
+                        '&:hover': {
+                          background: 'linear-gradient(135deg, #E65100 0%, #FF9800 100%)',
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 12px 35px rgba(255, 143, 0, 0.4)',
+                        },
+                      }}
+                    >
+                      Join MCAN Today
+                    </Button>
+                    
+                    <Button
+                      variant="outlined"
+                      size="large"
+                      startIcon={<PlayArrow />}
+                      onClick={() => navigate('/about')}
+                      sx={{
+                        borderColor: 'rgba(255, 255, 255, 0.5)',
+                        color: 'white',
+                        px: 4,
+                        py: 1.5,
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        borderRadius: 3,
+                        backdropFilter: 'blur(10px)',
+                        '&:hover': {
+                          borderColor: 'white',
+                          background: 'rgba(255, 255, 255, 0.1)',
+                          transform: 'translateY(-2px)',
+                        },
+                      }}
+                    >
+                      Learn More
+                    </Button>
+                  </Stack>
                 </Box>
-              </motion.div>
+              </Fade>
+            </Grid>
+            
+            <Grid item xs={12} md={6}>
+              <Fade in={isVisible} timeout={1500}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      display: 'inline-block',
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: -20,
+                        left: -20,
+                        right: -20,
+                        bottom: -20,
+                        background: 'linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
+                        borderRadius: '50%',
+                        animation: 'pulse 2s infinite',
+                      },
+                    }}
+                  >
+                    <Avatar
+                      src={mcanLogo}
+                      sx={{
+                        width: { xs: 200, md: 300 },
+                        height: { xs: 200, md: 300 },
+                        border: '4px solid rgba(255, 255, 255, 0.2)',
+                        backdropFilter: 'blur(10px)',
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </Fade>
             </Grid>
           </Grid>
         </Container>
       </Box>
 
-      {/* Features Section */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Typography variant="h2" sx={{ mb: 2, color: 'primary.dark' }}>
-              Our Digital Platform
-            </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
-              Comprehensive digital solutions for modern Muslim Corps Members
-            </Typography>
-          </Box>
-
+      {/* Stats Section */}
+      <Box sx={{ py: 8, background: theme.palette.background.default }}>
+        <Container maxWidth="lg">
+          <Fade in={isVisible} timeout={1000}>
+            <Box sx={{ textAlign: 'center', mb: 6 }}>
+              <Typography variant="h2" sx={{ mb: 2 }}>
+                Our Impact
+              </Typography>
+              <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
+                Empowering Muslim Corps Members across Nigeria with digital solutions and community support
+              </Typography>
+            </Box>
+          </Fade>
+          
           <Grid container spacing={4}>
-            {features.map((feature, index) => (
-              <Grid item xs={12} md={6} lg={4} key={index}>
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
+            {stats.map((stat, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <Slide direction="up" in={isVisible} timeout={1000 + index * 200}>
                   <Card
                     sx={{
+                      textAlign: 'center',
+                      p: 3,
                       height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(145deg, #1A1A1A 0%, #2A2A2A 100%)'
+                        : 'linear-gradient(145deg, #FFFFFF 0%, #FAFAFA 100%)',
+                      border: '1px solid rgba(0, 0, 0, 0.05)',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                       '&:hover': {
                         transform: 'translateY(-8px)',
-                        boxShadow: '0 8px 25px rgba(46, 125, 50, 0.15)',
+                        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
                       },
                     }}
                   >
-                    <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                      <Avatar
+                    <CardContent>
+                      <Box
                         sx={{
-                          backgroundColor: feature.color,
-                          width: 60,
-                          height: 60,
+                          width: 80,
+                          height: 80,
+                          borderRadius: '50%',
+                          background: stat.gradient,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          mx: 'auto',
                           mb: 2,
+                          color: 'white',
                         }}
                       >
-                        {feature.icon}
-                      </Avatar>
-                      <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
-                        {feature.title}
+                        {stat.icon}
+                      </Box>
+                      
+                      <Typography
+                        variant="h3"
+                        sx={{
+                          fontWeight: 800,
+                          background: stat.gradient,
+                          backgroundClip: 'text',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          mb: 1,
+                        }}
+                      >
+                        {stat.value}
                       </Typography>
+                      
+                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                        {stat.label}
+                      </Typography>
+                      
                       <Typography variant="body2" color="text.secondary">
-                        {feature.description}
+                        {stat.description}
                       </Typography>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </Slide>
               </Grid>
             ))}
           </Grid>
-        </motion.div>
-      </Container>
+        </Container>
+      </Box>
 
-      {/* Testimonials Section */}
-      <Box sx={{ backgroundColor: '#f5f5f5', py: 8 }}>
+      {/* Features Section */}
+      <Box sx={{ py: 8, background: theme.palette.background.paper }}>
         <Container maxWidth="lg">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <Box sx={{ textAlign: 'center', mb: 6 }}>
-              <Typography variant="h2" sx={{ mb: 2, color: 'primary.dark' }}>
-                What Our Members Say
+          <Fade in={isVisible} timeout={1000}>
+            <Box sx={{ textAlign: 'center', mb: 8 }}>
+              <Chip
+                label="Features"
+                color="primary"
+                sx={{ fontWeight: 700, mb: 2 }}
+              />
+              <Typography variant="h2" sx={{ mb: 3 }}>
+                Digital Solutions for Modern Corps Members
               </Typography>
-              <Typography variant="h6" color="text.secondary">
-                Real experiences from our community
+              <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
+                Experience the future of NYSC with our comprehensive digital platform designed specifically for Muslim Corps Members
               </Typography>
             </Box>
-
-            <Grid container spacing={4}>
-              {testimonials.map((testimonial, index) => (
-                <Grid item xs={12} md={4} key={index}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.2 }}
-                    viewport={{ once: true }}
+          </Fade>
+          
+          <Grid container spacing={4}>
+            {features.map((feature, index) => (
+              <Grid item xs={12} md={6} key={index}>
+                <Zoom in={isVisible} timeout={1000 + index * 200}>
+                  <Card
+                    sx={{
+                      height: '100%',
+                      p: 4,
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(145deg, #1A1A1A 0%, #2A2A2A 100%)'
+                        : 'linear-gradient(145deg, #FFFFFF 0%, #FAFAFA 100%)',
+                      border: '1px solid rgba(0, 0, 0, 0.05)',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      '&:hover': {
+                        transform: 'translateY(-8px)',
+                        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
+                      },
+                    }}
                   >
-                    <Card sx={{ height: '100%', p: 3 }}>
+                    <CardContent>
+                      <Box
+                        sx={{
+                          width: 80,
+                          height: 80,
+                          borderRadius: 3,
+                          background: feature.gradient,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          mb: 3,
+                          color: 'white',
+                        }}
+                      >
+                        {feature.icon}
+                      </Box>
+                      
+                      <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
+                        {feature.title}
+                      </Typography>
+                      
+                      <Typography variant="body1" color="text.secondary" sx={{ mb: 3, lineHeight: 1.6 }}>
+                        {feature.description}
+                      </Typography>
+                      
+                      <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
+                        {feature.benefits.map((benefit, benefitIndex) => (
+                          <Chip
+                            key={benefitIndex}
+                            label={benefit}
+                            size="small"
+                            sx={{
+                              background: 'rgba(27, 94, 32, 0.1)',
+                              color: 'primary.main',
+                              fontWeight: 500,
+                            }}
+                          />
+                        ))}
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </Zoom>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Services Section */}
+      <Box sx={{ py: 8, background: theme.palette.background.default }}>
+        <Container maxWidth="lg">
+          <Fade in={isVisible} timeout={1000}>
+            <Box sx={{ textAlign: 'center', mb: 6 }}>
+              <Typography variant="h2" sx={{ mb: 3 }}>
+                Our Services
+              </Typography>
+              <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
+                Comprehensive services designed to support Muslim Corps Members throughout their NYSC journey
+              </Typography>
+            </Box>
+          </Fade>
+          
+          <Grid container spacing={4}>
+            {services.map((service, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <Slide direction="up" in={isVisible} timeout={1000 + index * 200}>
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      p: 4,
+                      height: '100%',
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(145deg, #1A1A1A 0%, #2A2A2A 100%)'
+                        : 'linear-gradient(145deg, #FFFFFF 0%, #FAFAFA 100%)',
+                      border: '1px solid rgba(0, 0, 0, 0.05)',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      '&:hover': {
+                        transform: 'translateY(-8px)',
+                        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
+                      },
+                    }}
+                  >
+                    <CardContent>
+                      <Box
+                        sx={{
+                          width: 60,
+                          height: 60,
+                          borderRadius: '50%',
+                          background: `linear-gradient(135deg, ${theme.palette[service.color as keyof typeof theme.palette].main} 0%, ${theme.palette[service.color as keyof typeof theme.palette].light} 100%)`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          mx: 'auto',
+                          mb: 2,
+                          color: 'white',
+                        }}
+                      >
+                        {service.icon}
+                      </Box>
+                      
+                      <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+                        {service.count}
+                      </Typography>
+                      
+                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                        {service.title}
+                      </Typography>
+                      
+                      <Typography variant="body2" color="text.secondary">
+                        {service.description}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Slide>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Testimonials Section */}
+      <Box sx={{ py: 8, background: theme.palette.background.paper }}>
+        <Container maxWidth="lg">
+          <Fade in={isVisible} timeout={1000}>
+            <Box sx={{ textAlign: 'center', mb: 6 }}>
+              <Typography variant="h2" sx={{ mb: 3 }}>
+                What Our Members Say
+              </Typography>
+              <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
+                Hear from Muslim Corps Members who have experienced the MCAN difference
+              </Typography>
+            </Box>
+          </Fade>
+          
+          <Grid container spacing={4}>
+            {testimonials.map((testimonial, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <Slide direction="up" in={isVisible} timeout={1000 + index * 200}>
+                  <Card
+                    sx={{
+                      p: 3,
+                      height: '100%',
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(145deg, #1A1A1A 0%, #2A2A2A 100%)'
+                        : 'linear-gradient(145deg, #FFFFFF 0%, #FAFAFA 100%)',
+                      border: '1px solid rgba(0, 0, 0, 0.05)',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      '&:hover': {
+                        transform: 'translateY(-4px)',
+                        boxShadow: '0 16px 32px rgba(0, 0, 0, 0.1)',
+                      },
+                    }}
+                  >
+                    <CardContent>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        <Avatar sx={{ mr: 2, backgroundColor: 'primary.main' }}>
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <Star key={i} sx={{ color: '#FFD700', fontSize: 20 }} />
+                        ))}
+                      </Box>
+                      
+                      <Typography variant="body1" sx={{ mb: 3, fontStyle: 'italic', lineHeight: 1.6 }}>
+                        "{testimonial.content}"
+                      </Typography>
+                      
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Avatar sx={{ bgcolor: 'primary.main', mr: 2 }}>
                           {testimonial.avatar}
                         </Avatar>
                         <Box>
-                          <Typography variant="subtitle1" fontWeight="bold">
+                          <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
                             {testimonial.name}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
@@ -360,78 +630,89 @@ const HomePage: React.FC = () => {
                           </Typography>
                         </Box>
                       </Box>
-                      <Typography variant="body1" sx={{ fontStyle: 'italic' }}>
-                        "{testimonial.content}"
-                      </Typography>
-                    </Card>
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
-          </motion.div>
+                    </CardContent>
+                  </Card>
+                </Slide>
+              </Grid>
+            ))}
+          </Grid>
         </Container>
       </Box>
 
-      {/* Call to Action Section */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <Card
-            sx={{
-              background: 'linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%)',
-              color: 'white',
-              p: 6,
-              textAlign: 'center',
-            }}
-          >
-            <Typography variant="h3" sx={{ mb: 2, fontWeight: 'bold' }}>
-              Ready to Join MCAN?
-            </Typography>
-            <Typography variant="h6" sx={{ mb: 4, opacity: 0.9 }}>
-              Become part of Nigeria's largest Muslim Corps Members community
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Button
-                variant="contained"
-                size="large"
-                onClick={() => navigate('/register')}
-                sx={{
-                  backgroundColor: '#FFD54F',
-                  color: '#1B5E20',
-                  fontWeight: 'bold',
-                  px: 4,
-                  py: 1.5,
-                  '&:hover': {
-                    backgroundColor: '#FFC107',
-                  },
-                }}
-              >
-                Register Now
-              </Button>
-              <Button
-                variant="outlined"
-                size="large"
-                onClick={() => navigate('/contact')}
-                sx={{
-                  borderColor: 'white',
-                  color: 'white',
-                  px: 4,
-                  py: 1.5,
-                  '&:hover': {
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                  },
-                }}
-              >
-                Contact Us
-              </Button>
+      {/* CTA Section */}
+      <Box
+        sx={{
+          background: theme.palette.mode === 'dark' 
+            ? 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%)'
+            : 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+          color: 'white',
+          py: 8,
+        }}
+      >
+        <Container maxWidth="lg">
+          <Fade in={isVisible} timeout={1000}>
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="h2" sx={{ mb: 3, fontWeight: 800 }}>
+                Ready to Join MCAN?
+              </Typography>
+              
+              <Typography variant="h6" sx={{ mb: 4, opacity: 0.9, maxWidth: 600, mx: 'auto' }}>
+                Become part of Nigeria's largest Muslim Corps Members community and 
+                experience the future of NYSC with our digital platform.
+              </Typography>
+              
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
+                <Button
+                  variant="contained"
+                  size="large"
+                  endIcon={<ArrowForward />}
+                  onClick={() => navigate('/register')}
+                  sx={{
+                    background: 'linear-gradient(135deg, #FF8F00 0%, #FFB74D 100%)',
+                    color: 'white',
+                    px: 4,
+                    py: 1.5,
+                    fontSize: '1.1rem',
+                    fontWeight: 600,
+                    borderRadius: 3,
+                    boxShadow: '0 8px 25px rgba(255, 143, 0, 0.3)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #E65100 0%, #FF9800 100%)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 12px 35px rgba(255, 143, 0, 0.4)',
+                    },
+                  }}
+                >
+                  Register Now
+                </Button>
+                
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={() => navigate('/contact')}
+                  sx={{
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    color: 'white',
+                    px: 4,
+                    py: 1.5,
+                    fontSize: '1.1rem',
+                    fontWeight: 600,
+                    borderRadius: 3,
+                    backdropFilter: 'blur(10px)',
+                    '&:hover': {
+                      borderColor: 'white',
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      transform: 'translateY(-2px)',
+                    },
+                  }}
+                >
+                  Contact Us
+                </Button>
+              </Stack>
             </Box>
-          </Card>
-        </motion.div>
-      </Container>
+          </Fade>
+        </Container>
+      </Box>
     </Box>
   );
 };

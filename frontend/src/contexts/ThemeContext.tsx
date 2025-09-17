@@ -32,85 +32,314 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
     palette: {
       mode: darkMode ? 'dark' : 'light',
       primary: {
-        main: darkMode ? '#4CAF50' : '#2E7D32',
-        dark: darkMode ? '#388E3C' : '#1B5E20',
-        light: darkMode ? '#81C784' : '#4CAF50',
+        main: darkMode ? '#00C853' : '#1B5E20',
+        dark: darkMode ? '#00A041' : '#0D3A0D',
+        light: darkMode ? '#4CAF50' : '#2E7D32',
+        contrastText: '#FFFFFF',
       },
       secondary: {
-        main: darkMode ? '#FFD54F' : '#FFC107',
-        dark: darkMode ? '#F57F17' : '#FF8F00',
-        light: darkMode ? '#FFF176' : '#FFD54F',
+        main: darkMode ? '#FFD700' : '#FF8F00',
+        dark: darkMode ? '#FFC107' : '#E65100',
+        light: darkMode ? '#FFF176' : '#FFB74D',
+        contrastText: '#000000',
+      },
+      tertiary: {
+        main: darkMode ? '#2196F3' : '#1976D2',
+        dark: darkMode ? '#1565C0' : '#0D47A1',
+        light: darkMode ? '#64B5F6' : '#42A5F5',
+        contrastText: '#FFFFFF',
       },
       background: {
-        default: darkMode ? '#121212' : '#f5f5f5',
-        paper: darkMode ? '#1e1e1e' : '#ffffff',
+        default: darkMode ? '#0A0A0A' : '#FAFAFA',
+        paper: darkMode ? '#1A1A1A' : '#FFFFFF',
+        gradient: darkMode 
+          ? 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%)'
+          : 'linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%)',
       },
       text: {
-        primary: darkMode ? '#ffffff' : '#1B5E20',
-        secondary: darkMode ? '#b0b0b0' : '#424242',
+        primary: darkMode ? '#FFFFFF' : '#1A1A1A',
+        secondary: darkMode ? '#B0B0B0' : '#666666',
+        disabled: darkMode ? '#666666' : '#999999',
+      },
+      success: {
+        main: '#4CAF50',
+        dark: '#388E3C',
+        light: '#81C784',
+      },
+      warning: {
+        main: '#FF9800',
+        dark: '#F57C00',
+        light: '#FFB74D',
+      },
+      error: {
+        main: '#F44336',
+        dark: '#D32F2F',
+        light: '#EF5350',
+      },
+      info: {
+        main: '#2196F3',
+        dark: '#1976D2',
+        light: '#64B5F6',
       },
     },
     typography: {
-      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Inter", "Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
       h1: {
-        fontWeight: 700,
-        fontSize: '2.5rem',
+        fontFamily: '"Poppins", "Inter", sans-serif',
+        fontWeight: 800,
+        fontSize: '3.5rem',
+        lineHeight: 1.2,
+        letterSpacing: '-0.02em',
+        background: darkMode 
+          ? 'linear-gradient(135deg, #FFFFFF 0%, #B0B0B0 100%)'
+          : 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+        backgroundClip: 'text',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
       },
       h2: {
-        fontWeight: 600,
-        fontSize: '2rem',
+        fontFamily: '"Poppins", "Inter", sans-serif',
+        fontWeight: 700,
+        fontSize: '2.75rem',
+        lineHeight: 1.3,
+        letterSpacing: '-0.01em',
+        background: darkMode 
+          ? 'linear-gradient(135deg, #FFFFFF 0%, #B0B0B0 100%)'
+          : 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+        backgroundClip: 'text',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
       },
       h3: {
+        fontFamily: '"Poppins", "Inter", sans-serif',
         fontWeight: 600,
-        fontSize: '1.75rem',
+        fontSize: '2.25rem',
+        lineHeight: 1.4,
+        letterSpacing: '-0.01em',
       },
       h4: {
+        fontFamily: '"Poppins", "Inter", sans-serif',
         fontWeight: 600,
-        fontSize: '1.5rem',
+        fontSize: '1.875rem',
+        lineHeight: 1.4,
       },
       h5: {
+        fontFamily: '"Poppins", "Inter", sans-serif',
         fontWeight: 600,
-        fontSize: '1.25rem',
+        fontSize: '1.5rem',
+        lineHeight: 1.5,
       },
       h6: {
+        fontFamily: '"Poppins", "Inter", sans-serif',
         fontWeight: 600,
+        fontSize: '1.25rem',
+        lineHeight: 1.5,
+      },
+      body1: {
+        fontFamily: '"Inter", "Roboto", sans-serif',
+        fontWeight: 400,
         fontSize: '1rem',
+        lineHeight: 1.6,
+      },
+      body2: {
+        fontFamily: '"Inter", "Roboto", sans-serif',
+        fontWeight: 400,
+        fontSize: '0.875rem',
+        lineHeight: 1.6,
+      },
+      button: {
+        fontFamily: '"Inter", "Roboto", sans-serif',
+        fontWeight: 600,
+        fontSize: '0.875rem',
+        textTransform: 'none',
+        letterSpacing: '0.02em',
       },
     },
+    shape: {
+      borderRadius: 16,
+    },
+    shadows: [
+      'none',
+      darkMode ? '0 1px 3px rgba(0, 0, 0, 0.4)' : '0 1px 3px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 2px 6px rgba(0, 0, 0, 0.4)' : '0 2px 6px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 4px 12px rgba(0, 0, 0, 0.4)' : '0 4px 12px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 8px 24px rgba(0, 0, 0, 0.4)' : '0 8px 24px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 12px 36px rgba(0, 0, 0, 0.4)' : '0 12px 36px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 16px 48px rgba(0, 0, 0, 0.4)' : '0 16px 48px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 20px 60px rgba(0, 0, 0, 0.4)' : '0 20px 60px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 24px 72px rgba(0, 0, 0, 0.4)' : '0 24px 72px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 28px 84px rgba(0, 0, 0, 0.4)' : '0 28px 84px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 32px 96px rgba(0, 0, 0, 0.4)' : '0 32px 96px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 36px 108px rgba(0, 0, 0, 0.4)' : '0 36px 108px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 40px 120px rgba(0, 0, 0, 0.4)' : '0 40px 120px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 44px 132px rgba(0, 0, 0, 0.4)' : '0 44px 132px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 48px 144px rgba(0, 0, 0, 0.4)' : '0 48px 144px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 52px 156px rgba(0, 0, 0, 0.4)' : '0 52px 156px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 56px 168px rgba(0, 0, 0, 0.4)' : '0 56px 168px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 60px 180px rgba(0, 0, 0, 0.4)' : '0 60px 180px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 64px 192px rgba(0, 0, 0, 0.4)' : '0 64px 192px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 68px 204px rgba(0, 0, 0, 0.4)' : '0 68px 204px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 72px 216px rgba(0, 0, 0, 0.4)' : '0 72px 216px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 76px 228px rgba(0, 0, 0, 0.4)' : '0 76px 228px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 80px 240px rgba(0, 0, 0, 0.4)' : '0 80px 240px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 84px 252px rgba(0, 0, 0, 0.4)' : '0 84px 252px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 88px 264px rgba(0, 0, 0, 0.4)' : '0 88px 264px rgba(0, 0, 0, 0.12)',
+      darkMode ? '0 92px 276px rgba(0, 0, 0, 0.4)' : '0 92px 276px rgba(0, 0, 0, 0.12)',
+    ],
     components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            scrollBehavior: 'smooth',
+            '&::-webkit-scrollbar': {
+              width: '8px',
+            },
+            '&::-webkit-scrollbar-track': {
+              background: darkMode ? '#1A1A1A' : '#F5F5F5',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: darkMode ? '#333333' : '#CCCCCC',
+              borderRadius: '4px',
+              '&:hover': {
+                background: darkMode ? '#444444' : '#AAAAAA',
+              },
+            },
+          },
+        },
+      },
       MuiCard: {
         styleOverrides: {
           root: {
-            borderRadius: 12,
+            borderRadius: 20,
+            background: darkMode 
+              ? 'linear-gradient(145deg, #1A1A1A 0%, #2A2A2A 100%)'
+              : 'linear-gradient(145deg, #FFFFFF 0%, #FAFAFA 100%)',
             boxShadow: darkMode 
-              ? '0 4px 6px rgba(0, 0, 0, 0.3)' 
-              : '0 2px 8px rgba(0, 0, 0, 0.1)',
+              ? '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05)'
+              : '0 8px 32px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05)',
+            backdropFilter: 'blur(10px)',
+            border: darkMode 
+              ? '1px solid rgba(255, 255, 255, 0.1)'
+              : '1px solid rgba(0, 0, 0, 0.05)',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            '&:hover': {
+              transform: 'translateY(-4px)',
+              boxShadow: darkMode 
+                ? '0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)'
+                : '0 16px 48px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.08)',
+            },
           },
         },
       },
       MuiButton: {
         styleOverrides: {
           root: {
-            borderRadius: 8,
+            borderRadius: 12,
             textTransform: 'none',
             fontWeight: 600,
+            fontSize: '0.875rem',
+            padding: '12px 24px',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            position: 'relative',
+            overflow: 'hidden',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: '-100%',
+              width: '100%',
+              height: '100%',
+              background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
+              transition: 'left 0.5s',
+            },
+            '&:hover::before': {
+              left: '100%',
+            },
+            '&:hover': {
+              transform: 'translateY(-2px)',
+              boxShadow: darkMode 
+                ? '0 8px 25px rgba(0, 200, 83, 0.3)'
+                : '0 8px 25px rgba(27, 94, 32, 0.3)',
+            },
+            '&:active': {
+              transform: 'translateY(0)',
+            },
+          },
+          contained: {
+            background: darkMode 
+              ? 'linear-gradient(135deg, #00C853 0%, #4CAF50 100%)'
+              : 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+            boxShadow: darkMode 
+              ? '0 4px 15px rgba(0, 200, 83, 0.3)'
+              : '0 4px 15px rgba(27, 94, 32, 0.3)',
+            '&:hover': {
+              background: darkMode 
+                ? 'linear-gradient(135deg, #00A041 0%, #388E3C 100%)'
+                : 'linear-gradient(135deg, #0D3A0D 0%, #1B5E20 100%)',
+            },
+          },
+          outlined: {
+            borderWidth: '2px',
+            '&:hover': {
+              borderWidth: '2px',
+            },
           },
         },
       },
       MuiChip: {
         styleOverrides: {
           root: {
-            borderRadius: 16,
+            borderRadius: 20,
+            fontWeight: 500,
+            fontSize: '0.75rem',
+            padding: '4px 12px',
+            height: 'auto',
+            transition: 'all 0.2s ease-in-out',
+            '&:hover': {
+              transform: 'scale(1.05)',
+            },
           },
         },
       },
       MuiAppBar: {
         styleOverrides: {
           root: {
-            backgroundColor: darkMode ? '#1e1e1e' : '#2E7D32',
+            background: darkMode 
+              ? 'linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%)'
+              : 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+            backdropFilter: 'blur(20px)',
             boxShadow: darkMode 
-              ? '0 2px 4px rgba(0, 0, 0, 0.3)' 
-              : '0 2px 4px rgba(0, 0, 0, 0.1)',
+              ? '0 4px 20px rgba(0, 0, 0, 0.4)'
+              : '0 4px 20px rgba(27, 94, 32, 0.2)',
+            borderBottom: darkMode 
+              ? '1px solid rgba(255, 255, 255, 0.1)'
+              : '1px solid rgba(255, 255, 255, 0.1)',
+          },
+        },
+      },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            '& .MuiOutlinedInput-root': {
+              borderRadius: 12,
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              '&:hover': {
+                transform: 'translateY(-1px)',
+              },
+              '&.Mui-focused': {
+                transform: 'translateY(-2px)',
+                boxShadow: darkMode 
+                  ? '0 8px 25px rgba(0, 200, 83, 0.2)'
+                  : '0 8px 25px rgba(27, 94, 32, 0.2)',
+              },
+            },
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            backgroundImage: 'none',
           },
         },
       },
