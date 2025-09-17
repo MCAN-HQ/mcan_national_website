@@ -16,6 +16,8 @@ import StatesPage from './pages/StatesPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
+import ResetPasswordPage from './pages/auth/ResetPasswordPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import ProfilePage from './pages/dashboard/ProfilePage';
 import PrayerTimesPage from './pages/PrayerTimesPage';
@@ -58,6 +60,14 @@ const AppContent: React.FC = () => {
           <Route 
             path="/register" 
             element={user ? <Navigate to="/dashboard" replace /> : <RegisterPage />} 
+          />
+          <Route 
+            path="/forgot-password" 
+            element={user ? <Navigate to="/dashboard" replace /> : <ForgotPasswordPage />} 
+          />
+          <Route 
+            path="/reset-password" 
+            element={user ? <Navigate to="/dashboard" replace /> : <ResetPasswordPage />} 
           />
           
           {/* Protected Dashboard Routes */}
