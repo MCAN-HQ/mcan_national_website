@@ -27,7 +27,7 @@ interface ProfileFormData {
 }
 
 const ProfilePage: React.FC = () => {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' });
