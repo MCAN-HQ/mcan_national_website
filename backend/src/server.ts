@@ -25,6 +25,7 @@ import paymentRoutes from './routes/payments';
 import propertyRoutes from './routes/properties';
 import marketplaceRoutes from './routes/marketplace';
 import dashboardRoutes from './routes/dashboard';
+import adminRoutes from './routes/admin';
 import type { AuthenticatedRequest } from './types';
 
 // Load environment variables
@@ -158,6 +159,7 @@ if (process.env.API_DOCS_ENABLED === 'true') {
 
 // API Routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/admin', adminRoutes);
 // app.use('/api/v1/users', userRoutes);
 // app.use('/api/v1/members', memberRoutes);
 // app.use('/api/v1/payments', paymentRoutes);
