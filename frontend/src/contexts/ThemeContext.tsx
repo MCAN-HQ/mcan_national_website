@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { ThemeProvider, createTheme, Theme, responsiveFontSizes } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
+
 interface ThemeContextType {
   darkMode: boolean;
   toggleDarkMode: () => void;
@@ -43,18 +44,9 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
         light: darkMode ? '#FFF176' : '#FFB74D',
         contrastText: '#000000',
       },
-      tertiary: {
-        main: darkMode ? '#2196F3' : '#1976D2',
-        dark: darkMode ? '#1565C0' : '#0D47A1',
-        light: darkMode ? '#64B5F6' : '#42A5F5',
-        contrastText: '#FFFFFF',
-      },
       background: {
         default: darkMode ? '#0A0A0A' : '#FAFAFA',
         paper: darkMode ? '#1A1A1A' : '#FFFFFF',
-        gradient: darkMode 
-          ? 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%)'
-          : 'linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%)',
       },
       text: {
         primary: darkMode ? '#FFFFFF' : '#1A1A1A',
@@ -158,52 +150,11 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
     shape: {
       borderRadius: 16,
     },
-    shadows: [
-      'none',
-      darkMode ? '0 1px 3px rgba(0, 0, 0, 0.4)' : '0 1px 3px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 2px 6px rgba(0, 0, 0, 0.4)' : '0 2px 6px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 4px 12px rgba(0, 0, 0, 0.4)' : '0 4px 12px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 8px 24px rgba(0, 0, 0, 0.4)' : '0 8px 24px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 12px 36px rgba(0, 0, 0, 0.4)' : '0 12px 36px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 16px 48px rgba(0, 0, 0, 0.4)' : '0 16px 48px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 20px 60px rgba(0, 0, 0, 0.4)' : '0 20px 60px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 24px 72px rgba(0, 0, 0, 0.4)' : '0 24px 72px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 28px 84px rgba(0, 0, 0, 0.4)' : '0 28px 84px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 32px 96px rgba(0, 0, 0, 0.4)' : '0 32px 96px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 36px 108px rgba(0, 0, 0, 0.4)' : '0 36px 108px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 40px 120px rgba(0, 0, 0, 0.4)' : '0 40px 120px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 44px 132px rgba(0, 0, 0, 0.4)' : '0 44px 132px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 48px 144px rgba(0, 0, 0, 0.4)' : '0 48px 144px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 52px 156px rgba(0, 0, 0, 0.4)' : '0 52px 156px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 56px 168px rgba(0, 0, 0, 0.4)' : '0 56px 168px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 60px 180px rgba(0, 0, 0, 0.4)' : '0 60px 180px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 64px 192px rgba(0, 0, 0, 0.4)' : '0 64px 192px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 68px 204px rgba(0, 0, 0, 0.4)' : '0 68px 204px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 72px 216px rgba(0, 0, 0, 0.4)' : '0 72px 216px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 76px 228px rgba(0, 0, 0, 0.4)' : '0 76px 228px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 80px 240px rgba(0, 0, 0, 0.4)' : '0 80px 240px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 84px 252px rgba(0, 0, 0, 0.4)' : '0 84px 252px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 88px 264px rgba(0, 0, 0, 0.4)' : '0 88px 264px rgba(0, 0, 0, 0.12)',
-      darkMode ? '0 92px 276px rgba(0, 0, 0, 0.4)' : '0 92px 276px rgba(0, 0, 0, 0.12)',
-    ],
     components: {
       MuiCssBaseline: {
         styleOverrides: {
           body: {
             scrollBehavior: 'smooth',
-            '&::-webkit-scrollbar': {
-              width: '8px',
-            },
-            '&::-webkit-scrollbar-track': {
-              background: darkMode ? '#1A1A1A' : '#F5F5F5',
-            },
-            '&::-webkit-scrollbar-thumb': {
-              background: darkMode ? '#333333' : '#CCCCCC',
-              borderRadius: '4px',
-              '&:hover': {
-                background: darkMode ? '#444444' : '#AAAAAA',
-              },
-            },
           },
         },
       },
@@ -224,7 +175,7 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
             transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
               transform: 'translateY(-4px)',
-              boxShadow: darkMode 
+            boxShadow: darkMode 
                 ? '0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)'
                 : '0 16px 48px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.08)',
             },
@@ -328,7 +279,7 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
               },
               '&.Mui-focused': {
                 transform: 'translateY(-2px)',
-                boxShadow: darkMode 
+            boxShadow: darkMode 
                   ? '0 8px 25px rgba(0, 200, 83, 0.2)'
                   : '0 8px 25px rgba(27, 94, 32, 0.2)',
               },

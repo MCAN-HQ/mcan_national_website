@@ -125,21 +125,24 @@ const HomePage: React.FC = () => {
       description: 'State-managed accommodation facilities',
       icon: <HomeWork sx={{ fontSize: 32 }} />,
       count: '50+',
-      color: 'primary'
+      mainColor: theme.palette.primary.main,
+      lightColor: theme.palette.primary.light
     },
     {
       title: 'Transportation',
       description: 'Transport assets and logistics',
       icon: <DirectionsBus sx={{ fontSize: 32 }} />,
       count: '30+',
-      color: 'secondary'
+      mainColor: theme.palette.secondary.main,
+      lightColor: theme.palette.secondary.light
     },
     {
       title: 'Masjids',
       description: 'Prayer spaces and Islamic centers',
       icon: <Mosque sx={{ fontSize: 32 }} />,
       count: '25+',
-      color: 'success'
+      mainColor: theme.palette.success.main,
+      lightColor: theme.palette.success.light
     },
   ];
 
@@ -541,7 +544,7 @@ const HomePage: React.FC = () => {
                           width: 60,
                           height: 60,
                           borderRadius: '50%',
-                          background: `linear-gradient(135deg, ${theme.palette[service.color as keyof typeof theme.palette].main} 0%, ${theme.palette[service.color as keyof typeof theme.palette].light} 100%)`,
+                          background: `linear-gradient(135deg, ${service.mainColor} 0%, ${service.lightColor} 100%)`,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
