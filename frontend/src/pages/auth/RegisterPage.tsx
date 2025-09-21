@@ -38,7 +38,7 @@ interface RegisterFormData {
   password: string;
   confirmPassword: string;
   stateCode: string;
-  nyscNumber: string;
+  stateOfOrigin: string;
   deploymentState: string;
   serviceYear: string;
 }
@@ -79,19 +79,6 @@ const RegisterPage: React.FC = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const nigerianStates = [
-    'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa', 'Benue', 'Borno',
-    'Cross River', 'Delta', 'Ebonyi', 'Edo', 'Ekiti', 'Enugu', 'Gombe', 'Imo',
-    'Jigawa', 'Kaduna', 'Kano', 'Katsina', 'Kebbi', 'Kogi', 'Kwara', 'Lagos',
-    'Nasarawa', 'Niger', 'Ogun', 'Ondo', 'Osun', 'Oyo', 'Plateau', 'Rivers',
-    'Sokoto', 'Taraba', 'Yobe', 'Zamfara', 'FCT'
-  ];
-
-  const stateCodes = [
-    'AB', 'AD', 'AK', 'AN', 'BA', 'BY', 'BE', 'BO', 'CR', 'DE', 'EB', 'ED',
-    'EK', 'EN', 'GO', 'IM', 'JI', 'KD', 'KN', 'KT', 'KE', 'KO', 'KW', 'LA',
-    'NA', 'NI', 'OG', 'ON', 'OS', 'OY', 'PL', 'RI', 'SO', 'TA', 'YO', 'ZA', 'FC'
-  ];
 
   return (
     <Box
@@ -215,48 +202,47 @@ const RegisterPage: React.FC = () => {
 
               {/* State Code */}
               <Grid item xs={12} sm={6}>
-                <FormControl fullWidth margin="normal">
-                  <InputLabel>State Code</InputLabel>
-                  <Select
-                    {...register('stateCode', { required: 'State code is required' })}
-                    error={!!errors.stateCode}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <LocationOn color="action" />
-                      </InputAdornment>
-                    }
-                  >
-                    {stateCodes.map((code, index) => (
-                      <MenuItem key={code} value={code}>
-                        {code} - {nigerianStates[index]}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-
-              {/* NYSC Number */}
-              <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="NYSC Number"
+                  label="State Code"
                   margin="normal"
-                  {...register('nyscNumber', {
-                    required: 'NYSC number is required',
+                  {...register('stateCode', {
+                    required: 'State code is required',
                     pattern: {
-                      value: /^[A-Z]{2}\/[0-9]{4}\/[0-9]{6}$/,
-                      message: 'Please enter NYSC number in format: AB/2024/123456',
+                      value: /^[A-Z]{2}$/,
+                      message: 'State code must be 2 uppercase letters (e.g., AB, LA, KN)',
                     },
                   })}
-                  error={!!errors.nyscNumber}
-                  helperText={errors.nyscNumber?.message}
+                  error={!!errors.stateCode}
+                  helperText={errors.stateCode?.message}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Work color="action" />
+                        <LocationOn color="action" />
                       </InputAdornment>
                     ),
                   }}
+                  placeholder="e.g., AB, LA, KN"
+                />
+              </Grid>
+
+              {/* State of Origin */}
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="State of Origin"
+                  margin="normal"
+                  {...register('stateOfOrigin', { required: 'State of origin is required' })}
+                  error={!!errors.stateOfOrigin}
+                  helperText={errors.stateOfOrigin?.message}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LocationOn color="action" />
+                      </InputAdornment>
+                    ),
+                  }}
+                  placeholder="e.g., Lagos, Abuja, Kano"
                 />
               </Grid>
 
@@ -268,11 +254,13 @@ const RegisterPage: React.FC = () => {
                     {...register('serviceYear', { required: 'Service year is required' })}
                     error={!!errors.serviceYear}
                   >
-                    {Array.from({ length: 10 }, (_, i) => {
-                      const year = new Date().getFullYear() - 5 + i;
+                    {Array.from({ length: 5 }, (_, i) => {
+                      const startYear = 2024 + i;
+                      const endYear = startYear + 1;
+                      const serviceYear = `${startYear}/${endYear}`;
                       return (
-                        <MenuItem key={year} value={year.toString()}>
-                          {year}
+                        <MenuItem key={serviceYear} value={serviceYear}>
+                          {serviceYear}
                         </MenuItem>
                       );
                     })}
@@ -282,24 +270,22 @@ const RegisterPage: React.FC = () => {
 
               {/* Deployment State */}
               <Grid item xs={12}>
-                <FormControl fullWidth margin="normal">
-                  <InputLabel>Deployment State</InputLabel>
-                  <Select
-                    {...register('deploymentState', { required: 'Deployment state is required' })}
-                    error={!!errors.deploymentState}
-                    startAdornment={
+                <TextField
+                  fullWidth
+                  label="Deployment State"
+                  margin="normal"
+                  {...register('deploymentState', { required: 'Deployment state is required' })}
+                  error={!!errors.deploymentState}
+                  helperText={errors.deploymentState?.message}
+                  InputProps={{
+                    startAdornment: (
                       <InputAdornment position="start">
                         <LocationOn color="action" />
                       </InputAdornment>
-                    }
-                  >
-                    {nigerianStates.map((state) => (
-                      <MenuItem key={state} value={state}>
-                        {state}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                    ),
+                  }}
+                  placeholder="e.g., Lagos, Abuja, Kano"
+                />
               </Grid>
 
               {/* Password */}
