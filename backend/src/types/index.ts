@@ -6,7 +6,7 @@ export interface User {
   phone: string;
   role: UserRole;
   stateCode?: string;
-  nyscNumber?: string;
+  stateOfOrigin?: string;
   deploymentState?: string;
   serviceYear?: string;
   isActive: boolean;
@@ -44,7 +44,7 @@ export interface RegisterData {
   password: string;
   confirmPassword: string;
   stateCode?: string;
-  nyscNumber?: string;
+  stateOfOrigin?: string;
   deploymentState?: string;
   serviceYear?: string;
   role?: UserRole;
@@ -83,7 +83,6 @@ export interface Member {
   userId: string;
   user: User;
   stateCode: string;
-  nyscNumber: string;
   deploymentState: string;
   serviceYear: string;
   registrationDate: Date;
