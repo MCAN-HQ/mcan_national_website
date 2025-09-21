@@ -207,10 +207,6 @@ const RegisterPage: React.FC = () => {
                   margin="normal"
                   {...register('stateCode', {
                     required: 'State code is required',
-                    pattern: {
-                      value: /^[A-Z]{2}$/,
-                      message: 'State code must be 2 uppercase letters (e.g., AB, LA, KN)',
-                    },
                   })}
                   error={!!errors.stateCode}
                   helperText={errors.stateCode?.message}
@@ -221,7 +217,7 @@ const RegisterPage: React.FC = () => {
                       </InputAdornment>
                     ),
                   }}
-                  placeholder="e.g., AB, LA, KN"
+                  placeholder="e.g., LA/24C/9525"
                 />
               </Grid>
 
