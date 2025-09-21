@@ -12,8 +12,8 @@ CREATE TABLE users (
     phone VARCHAR(20) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     role VARCHAR(50) NOT NULL DEFAULT 'MEMBER',
-    state_code VARCHAR(10),
-    nysc_number VARCHAR(20),
+    state_code VARCHAR(20),
+    state_of_origin VARCHAR(100),
     deployment_state VARCHAR(100),
     service_year VARCHAR(10),
     is_active BOOLEAN DEFAULT true,
@@ -33,7 +33,6 @@ CREATE TABLE members (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     state_code VARCHAR(10) NOT NULL,
-    nysc_number VARCHAR(20) UNIQUE NOT NULL,
     deployment_state VARCHAR(100) NOT NULL,
     service_year VARCHAR(10) NOT NULL,
     registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -226,7 +225,6 @@ CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_role ON users(role);
 CREATE INDEX idx_users_state_code ON users(state_code);
 CREATE INDEX idx_members_user_id ON members(user_id);
-CREATE INDEX idx_members_nysc_number ON members(nysc_number);
 CREATE INDEX idx_members_state_code ON members(state_code);
 CREATE INDEX idx_payments_member_id ON payments(member_id);
 CREATE INDEX idx_payments_status ON payments(status);
