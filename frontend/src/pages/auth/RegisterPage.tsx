@@ -24,7 +24,6 @@ import {
   Person,
   Phone,
   LocationOn,
-  Work,
   PersonAdd,
 } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';

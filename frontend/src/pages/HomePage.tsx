@@ -9,15 +9,11 @@ import {
   CardContent,
   Avatar,
   useTheme,
-  useMediaQuery,
   Chip,
   Stack,
-  IconButton,
   Fade,
   Slide,
   Zoom,
-  Paper,
-  Divider,
 } from '@mui/material';
 import {
   People,
@@ -27,29 +23,18 @@ import {
   TrendingUp,
   Security,
   Support,
-  School,
   ArrowForward,
   PlayArrow,
-  CheckCircle,
   Mosque,
   DirectionsBus,
   HomeWork,
-  Phone,
-  Email,
   Facebook,
-  Twitter,
-  Instagram,
-  LinkedIn,
-  MenuBook,
-  Group,
-  Speed,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import mcanLogo from '../assets/mcanlogo.jpg';
 
 const HomePage: React.FC = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
 
