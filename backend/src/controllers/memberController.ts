@@ -27,13 +27,12 @@ export const memberController = {
   }),
 
   createMember: asyncHandler(async (req: Request, res: Response) => {
-    const { userId, stateCode, nyscNumber, deploymentState, serviceYear } = req.body;
+    const { userId, stateCode, deploymentState, serviceYear } = req.body;
     const id = uuidv4();
     await db('members').insert({
       id,
       user_id: userId,
       state_code: stateCode,
-      nysc_number: nyscNumber,
       deployment_state: deploymentState,
       service_year: serviceYear,
       membership_status: 'ACTIVE',

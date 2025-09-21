@@ -8,7 +8,7 @@ export const authValidation = {
     password: Joi.string().min(6).required(),
     confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
     stateCode: Joi.string().optional(),
-    nyscNumber: Joi.string().optional(),
+    stateOfOrigin: Joi.string().optional(),
     deploymentState: Joi.string().optional(),
     serviceYear: Joi.string().optional(),
     role: Joi.string().valid('MEMBER').optional(),
@@ -43,7 +43,7 @@ export const userValidation = {
     fullName: Joi.string().min(2).max(100).optional(),
     phone: Joi.string().pattern(/^\+?[1-9]\d{1,14}$/).optional(),
     stateCode: Joi.string().optional(),
-    nyscNumber: Joi.string().optional(),
+    stateOfOrigin: Joi.string().optional(),
     deploymentState: Joi.string().optional(),
     serviceYear: Joi.string().optional(),
   }),
@@ -53,14 +53,12 @@ export const memberValidation = {
   createMember: Joi.object({
     userId: Joi.string().uuid().required(),
     stateCode: Joi.string().required(),
-    nyscNumber: Joi.string().required(),
     deploymentState: Joi.string().required(),
     serviceYear: Joi.string().required(),
   }),
 
   updateMember: Joi.object({
     stateCode: Joi.string().optional(),
-    nyscNumber: Joi.string().optional(),
     deploymentState: Joi.string().optional(),
     serviceYear: Joi.string().optional(),
     membershipStatus: Joi.string().valid('ACTIVE', 'INACTIVE', 'SUSPENDED', 'EXPIRED').optional(),
