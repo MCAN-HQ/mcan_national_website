@@ -28,7 +28,6 @@ import {
   Mosque,
   DirectionsBus,
   HomeWork,
-  Facebook,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import mcanLogo from '../assets/mcanlogo.jpg';
