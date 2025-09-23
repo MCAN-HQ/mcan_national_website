@@ -55,6 +55,27 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
     { name: 'Isha', time: '19:30', icon: <NightsStay />, color: '#673AB7' },
   ], []);
 
+  const getNextPrayerIndex = useCallback(() => {
+    const now = new Date();
+    const currentTime = now.getHours() * 60 + now.getMinutes();
+    
+    // Convert prayer times to minutes for comparison
+    const prayerTimesInMinutes = mockPrayerTimes.map(prayer => {
+      const [hours, minutes] = prayer.time.split(':').map(Number);
+      return hours * 60 + minutes;
+    });
+    
+    // Find the next prayer time
+    for (let i = 0; i < prayerTimesInMinutes.length; i++) {
+      if (prayerTimesInMinutes[i] > currentTime) {
+        return i;
+      }
+    }
+    
+    // If no prayer time is found after current time, the next prayer is tomorrow's Fajr (index 0)
+    return 0;
+  }, [mockPrayerTimes]);
+
   const loadPrayerTimes = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -63,10 +84,13 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
+      // Get the index of the next prayer
+      const nextPrayerIndex = getNextPrayerIndex();
+      
       // In real app, call prayer times API
       const times = mockPrayerTimes.map((prayer, index) => ({
         ...prayer,
-        isNext: index === 0, // Mock logic for next prayer
+        isNext: index === nextPrayerIndex,
       }));
       
       setPrayerTimes(times);
@@ -75,15 +99,16 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [mockPrayerTimes]);
+  }, [mockPrayerTimes, getNextPrayerIndex]);
 
   useEffect(() => {
-    // Update current time every minute
+    // Update current time every minute and reload prayer times to update next prayer
     const timer = setInterval(() => {
       setCurrentTime(new Date());
+      loadPrayerTimes(); // Reload to update next prayer
     }, 60000);
 
-    // Load prayer times
+    // Load prayer times initially
     loadPrayerTimes();
 
     return () => clearInterval(timer);
