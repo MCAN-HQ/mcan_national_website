@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { asyncHandler, createError } from '../middleware/errorHandler';
 import { logger } from '../utils/logger';
 import { userService } from '../services/userService';
+import { eidService } from '../services/eidService';
 import { signAccessToken, signRefreshToken } from '../utils/jwt';
 import { RegisterData } from '../types';
 
@@ -16,6 +17,13 @@ export const authController = {
     }
 
     const user = await userService.createUser(data);
+    try {
+      await eidService.ensureTable();
+      await eidService.generateForUser(user);
+    } catch (e) {
+      // Non-blocking: log but don't fail registration
+      logger.warn('E-ID generation failed during registration', e as any);
+    }
     const token = signAccessToken(user);
     const refreshToken = signRefreshToken(user);
 

@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import StatsCard from '../../components/dashboard/StatsCard';
 import DashboardChart from '../../components/dashboard/DashboardChart';
 import PrayerTimes from '../../components/prayer/PrayerTimes';
+import EIDCard from '../../components/dashboard/EIDCard';
 import {
   People,
   Business,
@@ -176,6 +177,11 @@ const DashboardPage: React.FC = () => {
               <PrayerTimes />
             </CardContent>
           </Card>
+        </Grid>
+
+        {/* Digital ID */}
+        <Grid item xs={12}>
+          <EIDCard />
         </Grid>
 
         {/* Payment Status Chart */}
