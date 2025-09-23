@@ -25,6 +25,36 @@ export const eidService = {
     }
   },
 
+  async generate(memberId: string): Promise<{ id: string; cardNumber: string; downloadUrl?: string }> {
+    // Compatibility for memberController: generate using member -> user
+    const member = await db('members').where({ id: memberId }).first();
+    if (!member) {
+      throw new Error('Member not found');
+    }
+    const userRow: any = await db('users').where({ id: member.user_id }).first();
+    if (!userRow) {
+      throw new Error('User not found for member');
+    }
+    const user: User = {
+      id: userRow.id,
+      email: userRow.email,
+      fullName: userRow.full_name,
+      phone: userRow.phone,
+      role: userRow.role,
+      stateCode: userRow.state_code || undefined,
+      stateOfOrigin: userRow.state_of_origin || undefined,
+      deploymentState: userRow.deployment_state || undefined,
+      serviceYear: userRow.service_year || undefined,
+      isActive: userRow.is_active,
+      isEmailVerified: userRow.is_email_verified,
+      createdAt: userRow.created_at,
+      updatedAt: userRow.updated_at,
+    };
+    await this.ensureTable();
+    const rec = await this.generateForUser(user);
+    return { id: rec.id, cardNumber: rec.id };
+  },
+
   async getByUserId(userId: string): Promise<EIDCardRecord | null> {
     const row = await db<EIDCardRecord>('eid_cards').where({ user_id: userId }).first();
     return row || null;
@@ -100,49 +130,3 @@ export const eidService = {
 };
 
 export default eidService;
-
-import QRCode from 'qrcode';
-import { v4 as uuidv4 } from 'uuid';
-import db from '../config/database';
-import cloudinary from '../utils/cloudinary';
-
-export const eidService = {
-  async generate(memberId: string): Promise<{ id: string; cardNumber: string; downloadUrl?: string }> {
-    const cardNumber = `MCAN-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
-    const payload = { memberId, cardNumber };
-    const qrDataUrl = await QRCode.toDataURL(JSON.stringify(payload));
-
-    // Optional: upload QR image to Cloudinary
-    let qrUrl: string | undefined;
-    try {
-      const upload = await cloudinary.uploader.upload(qrDataUrl, { folder: 'mcan/eid', public_id: cardNumber });
-      qrUrl = upload.secure_url;
-    } catch {
-      // fallback: store data URL directly
-      qrUrl = qrDataUrl;
-    }
-
-    const id = uuidv4();
-    const issue = new Date();
-    const expiry = new Date(issue);
-    expiry.setFullYear(expiry.getFullYear() + 1);
-
-    await db('eid_cards').insert({
-      id,
-      member_id: memberId,
-      card_number: cardNumber,
-      qr_code: qrUrl,
-      issue_date: issue,
-      expiry_date: expiry,
-      status: 'ACTIVE',
-      created_at: issue,
-      updated_at: issue,
-    });
-
-    return { id, cardNumber, downloadUrl: qrUrl };
-  },
-};
-
-export default eidService;
-
-
