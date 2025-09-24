@@ -23,6 +23,7 @@ import DashboardPage from './pages/dashboard/DashboardPage';
 import ProfilePage from './pages/dashboard/ProfilePage';
 import PrayerTimesPage from './pages/PrayerTimesPage';
 import NotFoundPage from './pages/NotFoundPage';
+import EIDPage from './pages/dashboard/EIDPage';
 
 // Protected Route Component
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -77,6 +78,14 @@ const AppContent: React.FC = () => {
             element={
               <ProtectedRoute>
                 <DashboardPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/eid" 
+            element={
+              <ProtectedRoute>
+                <EIDPage />
               </ProtectedRoute>
             } 
           />

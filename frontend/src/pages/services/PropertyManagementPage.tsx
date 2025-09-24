@@ -49,6 +49,17 @@ const PropertyManagementPage: React.FC = () => {
   const [selectedProperty, setSelectedProperty] = useState<PropertyItem | null>(null);
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [newProperty, setNewProperty] = useState<Partial<PropertyItem>>({
+    name: '',
+    type: 'LODGE',
+    state: '',
+    location: '',
+    status: 'ACTIVE',
+    ownership: 'MCAN',
+    condition: 'GOOD'
+  });
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' });
 
   const canManageAllStates = user?.role === 'SUPER_ADMIN' || user?.role === 'NATIONAL_ADMIN';
@@ -108,11 +119,70 @@ const PropertyManagementPage: React.FC = () => {
     setSelectedProperty(null);
   };
 
+  // keep single definition above
+
+  const openCreateDialog = () => {
+    const userState = user?.deploymentState || user?.stateCode || '';
+    setNewProperty({
+      name: '',
+      type: 'LODGE',
+      state: canManageAllStates ? '' : userState,
+      location: '',
+      status: 'ACTIVE',
+      ownership: 'MCAN',
+      condition: 'GOOD'
+    });
+    setCreateDialogOpen(true);
+  };
+
+  const handleCreateProperty = async () => {
+    try {
+      setCreating(true);
+      const payload: Omit<PropertyItem, 'id' | 'lastUpdated'> = {
+        name: newProperty.name || '',
+        type: (newProperty.type as PropertyItem['type']) || 'LODGE',
+        state: canManageAllStates ? (newProperty.state || '') : (user?.deploymentState || user?.stateCode || ''),
+        location: newProperty.location || '',
+        status: (newProperty.status as PropertyItem['status']) || 'ACTIVE',
+        ownership: (newProperty.ownership as PropertyItem['ownership']) || 'MCAN',
+        capacity: newProperty.capacity,
+        condition: newProperty.condition,
+        manager: newProperty.manager,
+        description: newProperty.description,
+        amenities: newProperty.amenities,
+        contactInfo: newProperty.contactInfo as any,
+        // lastUpdated will be set by service fallback; backend should set server-side
+      } as any;
+
+      if (!payload.name || !payload.location || !payload.state) {
+        setSnackbar({ open: true, message: 'Please fill in name, location and state.', severity: 'error' });
+        setCreating(false);
+        return;
+      }
+
+      const created = await propertyService.create(payload as any);
+      setProperties([created, ...properties]);
+      setSnackbar({ open: true, message: 'Property added successfully', severity: 'success' });
+      setCreateDialogOpen(false);
+    } catch (e) {
+      setSnackbar({ open: true, message: 'Failed to add property', severity: 'error' });
+    } finally {
+      setCreating(false);
+    }
+  };
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h3" sx={{ mb: 3, color: 'primary.dark', textAlign: 'center' }}>
-        Property Management
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+        <Typography variant="h3" sx={{ color: 'primary.dark' }}>
+          Property Management
+        </Typography>
+        {canManageProperties && (
+          <Button variant="contained" onClick={openCreateDialog}>
+            Add Property
+          </Button>
+        )}
+      </Box>
 
       <Paper sx={{ p: 2, mb: 3 }}>
         <Grid container spacing={2}>
@@ -378,6 +448,88 @@ const PropertyManagementPage: React.FC = () => {
               Edit Property
             </Button>
           )}
+        </DialogActions>
+      </Dialog>
+
+      {/* Create Property Dialog */}
+      <Dialog open={createDialogOpen} onClose={() => setCreateDialogOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Add Property</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2} sx={{ mt: 0.5 }}>
+            <Grid item xs={12}>
+              <TextField
+                label="Name"
+                fullWidth
+                value={newProperty.name || ''}
+                onChange={(e) => setNewProperty({ ...newProperty, name: e.target.value })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                select
+                label="Type"
+                fullWidth
+                value={newProperty.type || 'LODGE'}
+                onChange={(e) => setNewProperty({ ...newProperty, type: e.target.value as PropertyItem['type'] })}
+              >
+                {['LODGE','BUS','MASJID','OTHER'].map((t) => (
+                  <MenuItem key={t} value={t}>{t}</MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                select
+                label="State"
+                fullWidth
+                disabled={!canManageAllStates}
+                value={newProperty.state || ''}
+                onChange={(e) => setNewProperty({ ...newProperty, state: e.target.value })}
+              >
+                {NIGERIAN_STATES.map((s) => (
+                  <MenuItem key={s} value={s}>{s}</MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Location"
+                fullWidth
+                value={newProperty.location || ''}
+                onChange={(e) => setNewProperty({ ...newProperty, location: e.target.value })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                select
+                label="Status"
+                fullWidth
+                value={newProperty.status || 'ACTIVE'}
+                onChange={(e) => setNewProperty({ ...newProperty, status: e.target.value as PropertyItem['status'] })}
+              >
+                {['ACTIVE','UNDER_MAINTENANCE','UNAVAILABLE'].map((s) => (
+                  <MenuItem key={s} value={s}>{s}</MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                select
+                label="Ownership"
+                fullWidth
+                value={newProperty.ownership || 'MCAN'}
+                onChange={(e) => setNewProperty({ ...newProperty, ownership: e.target.value as PropertyItem['ownership'] })}
+              >
+                {['MCAN','LEASED','DONATED'].map((s) => (
+                  <MenuItem key={s} value={s}>{s}</MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setCreateDialogOpen(false)} disabled={creating}>Cancel</Button>
+          <Button variant="contained" onClick={handleCreateProperty} disabled={creating}>Add</Button>
         </DialogActions>
       </Dialog>
 

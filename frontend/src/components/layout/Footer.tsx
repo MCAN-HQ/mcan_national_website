@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
   ];
 
   const services = [
-    { label: 'e-ID Card Generation', path: '/services' },
+    { label: 'e-ID Card Generation', path: '/eid' },
     { label: 'Payment System', path: '/services' },
     { label: 'Property Management', path: '/services' },
     { label: 'Support Marketplace', path: '/services' },
