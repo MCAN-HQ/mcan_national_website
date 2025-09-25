@@ -177,8 +177,17 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <AppBar position="sticky" elevation={2}>
-        <Toolbar>
+      <AppBar 
+        position="sticky" 
+        elevation={0}
+        sx={{
+          background: 'linear-gradient(135deg, #0D4F1C 0%, #1B5E20 50%, #2E7D32 100%)',
+          backdropFilter: 'blur(10px)',
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+        }}
+      >
+        <Toolbar sx={{ py: 1 }}>
           {/* Mobile menu button */}
           {isMobile && (
             <IconButton
@@ -219,10 +228,11 @@ const Navbar: React.FC = () => {
                 variant="h5"
                 component="div"
                 sx={{
-                  fontWeight: 'bold',
+                  fontWeight: 800,
                   color: 'white',
-                  textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.3)',
                   lineHeight: 1,
+                  letterSpacing: '0.5px',
                 }}
               >
                 MCAN
@@ -252,9 +262,15 @@ const Navbar: React.FC = () => {
                   onClick={() => handleNavigation(item.path)}
                   sx={{
                     color: location.pathname === item.path ? '#FFD54F' : 'white',
-                    fontWeight: location.pathname === item.path ? 'bold' : 'normal',
+                    fontWeight: location.pathname === item.path ? 700 : 500,
+                    fontSize: '1rem',
+                    px: 2,
+                    py: 1,
+                    borderRadius: 2,
+                    transition: 'all 0.3s ease',
                     '&:hover': {
-                      backgroundColor: 'rgba(255,255,255,0.1)',
+                      backgroundColor: 'rgba(255,255,255,0.15)',
+                      transform: 'translateY(-1px)',
                     },
                   }}
                 >
@@ -343,8 +359,15 @@ const Navbar: React.FC = () => {
                   onClick={() => navigate('/login')}
                   sx={{
                     border: '1px solid rgba(255,255,255,0.3)',
+                    borderRadius: 2,
+                    px: 3,
+                    py: 1,
+                    fontWeight: 600,
+                    transition: 'all 0.3s ease',
                     '&:hover': {
-                      backgroundColor: 'rgba(255,255,255,0.1)',
+                      backgroundColor: 'rgba(255,255,255,0.15)',
+                      borderColor: 'rgba(255,255,255,0.5)',
+                      transform: 'translateY(-1px)',
                     },
                   }}
                 >
@@ -354,9 +377,18 @@ const Navbar: React.FC = () => {
                   color="inherit"
                   onClick={() => navigate('/register')}
                   sx={{
-                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    backgroundColor: 'rgba(255,255,255,0.15)',
+                    borderRadius: 2,
+                    px: 3,
+                    py: 1,
+                    fontWeight: 600,
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    transition: 'all 0.3s ease',
                     '&:hover': {
-                      backgroundColor: 'rgba(255,255,255,0.2)',
+                      backgroundColor: 'rgba(255,255,255,0.25)',
+                      transform: 'translateY(-1px)',
+                      boxShadow: '0 4px 12px rgba(255,255,255,0.2)',
                     },
                   }}
                 >

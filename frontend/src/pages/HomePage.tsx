@@ -161,11 +161,14 @@ const HomePage: React.FC = () => {
         sx={{
           background: theme.palette.mode === 'dark' 
             ? 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%)'
-            : 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+            : 'linear-gradient(135deg, #0D4F1C 0%, #1B5E20 50%, #2E7D32 100%)',
           color: 'white',
           position: 'relative',
           overflow: 'hidden',
-          py: { xs: 8, md: 12 },
+          py: { xs: 10, md: 16 },
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
         {/* Background Pattern */}
@@ -177,11 +180,44 @@ const HomePage: React.FC = () => {
             right: 0,
             bottom: 0,
             background: `
-              radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
-              radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.08) 0%, transparent 50%)
+              radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.04) 0%, transparent 50%),
+              radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
+              linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.02) 50%, transparent 70%)
             `,
             zIndex: 1,
+          }}
+        />
+        
+        {/* Floating Elements */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '10%',
+            right: '10%',
+            width: 100,
+            height: 100,
+            borderRadius: '50%',
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            zIndex: 1,
+            animation: 'float 6s ease-in-out infinite',
+          }}
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: '20%',
+            left: '5%',
+            width: 60,
+            height: 60,
+            borderRadius: '50%',
+            background: 'rgba(255, 255, 255, 0.03)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            zIndex: 1,
+            animation: 'float 8s ease-in-out infinite reverse',
           }}
         />
         
@@ -193,25 +229,31 @@ const HomePage: React.FC = () => {
                   <Chip
                     label="Serving Islam Through the Nation"
                     sx={{
-                      background: 'rgba(255, 255, 255, 0.2)',
+                      background: 'rgba(255, 255, 255, 0.15)',
                       color: 'white',
                       fontWeight: 600,
-                      mb: 3,
+                      mb: 4,
                       backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      fontSize: '0.9rem',
+                      px: 2,
+                      py: 1,
                     }}
                   />
                   
                   <Typography
                     variant="h1"
                     sx={{
-                      fontSize: { xs: '2.5rem', md: '4rem' },
-                      fontWeight: 800,
+                      fontSize: { xs: '2.8rem', md: '4.5rem' },
+                      fontWeight: 900,
                       lineHeight: 1.1,
-                      mb: 3,
-                      background: 'linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%)',
+                      mb: 4,
+                      background: 'linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 50%, #E0E0E0 100%)',
                       backgroundClip: 'text',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
+                      textShadow: '0 4px 8px rgba(0,0,0,0.1)',
+                      letterSpacing: '-0.02em',
                     }}
                   >
                     Muslim Corpers Association of Nigeria
@@ -220,17 +262,19 @@ const HomePage: React.FC = () => {
                   <Typography
                     variant="h5"
                     sx={{
-                      mb: 4,
-                      opacity: 0.9,
+                      mb: 5,
+                      opacity: 0.95,
                       fontWeight: 400,
-                      lineHeight: 1.6,
+                      lineHeight: 1.7,
+                      fontSize: { xs: '1.1rem', md: '1.3rem' },
+                      maxWidth: '90%',
                     }}
                   >
                     Empowering Muslim Corps Members across Nigeria with digital solutions, 
                     community support, and comprehensive services for a fulfilling NYSC experience.
                   </Typography>
                   
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3}>
                     <Button
                       variant="contained"
                       size="large"
@@ -239,15 +283,17 @@ const HomePage: React.FC = () => {
                       sx={{
                         background: 'linear-gradient(135deg, #FF8F00 0%, #FFB74D 100%)',
                         color: 'white',
-                        px: 4,
-                        py: 1.5,
-                        fontSize: '1.1rem',
-                        fontWeight: 600,
-                        borderRadius: 3,
+                        px: 5,
+                        py: 2,
+                        fontSize: '1.2rem',
+                        fontWeight: 700,
+                        borderRadius: 4,
                         boxShadow: '0 8px 25px rgba(255, 143, 0, 0.3)',
+                        textTransform: 'none',
+                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                         '&:hover': {
                           background: 'linear-gradient(135deg, #E65100 0%, #FF9800 100%)',
-                          transform: 'translateY(-2px)',
+                          transform: 'translateY(-3px)',
                           boxShadow: '0 12px 35px rgba(255, 143, 0, 0.4)',
                         },
                       }}
@@ -261,18 +307,22 @@ const HomePage: React.FC = () => {
                       startIcon={<PlayArrow />}
                       onClick={() => navigate('/about')}
                       sx={{
-                        borderColor: 'rgba(255, 255, 255, 0.5)',
+                        borderColor: 'rgba(255, 255, 255, 0.6)',
                         color: 'white',
-                        px: 4,
-                        py: 1.5,
-                        fontSize: '1.1rem',
-                        fontWeight: 600,
-                        borderRadius: 3,
+                        px: 5,
+                        py: 2,
+                        fontSize: '1.2rem',
+                        fontWeight: 700,
+                        borderRadius: 4,
                         backdropFilter: 'blur(10px)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        textTransform: 'none',
+                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                         '&:hover': {
                           borderColor: 'white',
-                          background: 'rgba(255, 255, 255, 0.1)',
-                          transform: 'translateY(-2px)',
+                          background: 'rgba(255, 255, 255, 0.15)',
+                          transform: 'translateY(-3px)',
+                          boxShadow: '0 8px 25px rgba(255, 255, 255, 0.2)',
                         },
                       }}
                     >

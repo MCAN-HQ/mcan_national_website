@@ -50,14 +50,30 @@ const Footer: React.FC = () => {
     <Box
       component="footer"
       sx={{
-        backgroundColor: '#1B5E20',
+        background: 'linear-gradient(135deg, #0D4F1C 0%, #1B5E20 50%, #2E7D32 100%)',
         color: 'white',
         mt: 'auto',
-        py: 4,
+        py: 6,
+        position: 'relative',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: `
+            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+            radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.04) 0%, transparent 50%)
+          `,
+          zIndex: 1,
+        },
       }}
     >
-      <Container maxWidth="lg">
-        <Grid container spacing={4}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
+        <Grid container spacing={6}>
           {/* MCAN Info */}
           <Grid item xs={12} md={4}>
             <Box>
@@ -78,19 +94,23 @@ const Footer: React.FC = () => {
                   variant="h5"
                   component="div"
                   sx={{
-                    fontWeight: 'bold',
+                    fontWeight: 800,
                     color: '#FFD54F',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                    letterSpacing: '0.5px',
                   }}
                 >
                   MCAN
                 </Typography>
               </Box>
               <Typography
-                variant="body2"
+                variant="body1"
                 sx={{
-                  mb: 2,
-                  lineHeight: 1.6,
-                  color: 'rgba(255,255,255,0.8)',
+                  mb: 3,
+                  lineHeight: 1.7,
+                  color: 'rgba(255,255,255,0.9)',
+                  fontSize: '1rem',
+                  fontWeight: 400,
                 }}
               >
                 Muslim Corpers Association of Nigeria - Serving Islam through the Nation since 1978.
@@ -98,28 +118,28 @@ const Footer: React.FC = () => {
               </Typography>
               
               {/* Contact Info */}
-              <Box sx={{ mt: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                  <LocationOn sx={{ mr: 1, fontSize: 16, color: '#FFD54F' }} />
-                  <Typography variant="body2" color="rgba(255,255,255,0.8)">
+              <Box sx={{ mt: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <LocationOn sx={{ mr: 1.5, fontSize: 18, color: '#FFD54F' }} />
+                  <Typography variant="body1" color="rgba(255,255,255,0.9)" sx={{ fontWeight: 500 }}>
                     National Secretariat, Abuja, Nigeria
                   </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                  <Phone sx={{ mr: 1, fontSize: 16, color: '#FFD54F' }} />
-                  <Typography variant="body2" color="rgba(255,255,255,0.8)">
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Phone sx={{ mr: 1.5, fontSize: 18, color: '#FFD54F' }} />
+                  <Typography variant="body1" color="rgba(255,255,255,0.9)" sx={{ fontWeight: 500 }}>
                     +234 (0) 800 MCAN-HELP
                   </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                  <Email sx={{ mr: 1, fontSize: 16, color: '#FFD54F' }} />
-                  <Typography variant="body2" color="rgba(255,255,255,0.8)">
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Email sx={{ mr: 1.5, fontSize: 18, color: '#FFD54F' }} />
+                  <Typography variant="body1" color="rgba(255,255,255,0.9)" sx={{ fontWeight: 500 }}>
                     info@mcan.org.ng
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <AccessTime sx={{ mr: 1, fontSize: 16, color: '#FFD54F' }} />
-                  <Typography variant="body2" color="rgba(255,255,255,0.8)">
+                  <AccessTime sx={{ mr: 1.5, fontSize: 18, color: '#FFD54F' }} />
+                  <Typography variant="body1" color="rgba(255,255,255,0.9)" sx={{ fontWeight: 500 }}>
                     Mon - Fri: 8:00 AM - 5:00 PM
                   </Typography>
                 </Box>
@@ -133,9 +153,11 @@ const Footer: React.FC = () => {
               variant="h6"
               component="div"
               sx={{
-                fontWeight: 'bold',
-                mb: 2,
+                fontWeight: 700,
+                mb: 3,
                 color: '#FFD54F',
+                textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+                letterSpacing: '0.3px',
               }}
             >
               Quick Links
@@ -147,12 +169,16 @@ const Footer: React.FC = () => {
                   href={link.path}
                   sx={{
                     display: 'block',
-                    color: 'rgba(255,255,255,0.8)',
+                    color: 'rgba(255,255,255,0.9)',
                     textDecoration: 'none',
-                    mb: 1,
+                    mb: 2,
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    transition: 'all 0.3s ease',
                     '&:hover': {
                       color: '#FFD54F',
-                      textDecoration: 'underline',
+                      textDecoration: 'none',
+                      transform: 'translateX(4px)',
                     },
                   }}
                 >
@@ -168,9 +194,11 @@ const Footer: React.FC = () => {
               variant="h6"
               component="div"
               sx={{
-                fontWeight: 'bold',
-                mb: 2,
+                fontWeight: 700,
+                mb: 3,
                 color: '#FFD54F',
+                textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+                letterSpacing: '0.3px',
               }}
             >
               Our Services
@@ -182,12 +210,16 @@ const Footer: React.FC = () => {
                   href={service.path}
                   sx={{
                     display: 'block',
-                    color: 'rgba(255,255,255,0.8)',
+                    color: 'rgba(255,255,255,0.9)',
                     textDecoration: 'none',
-                    mb: 1,
+                    mb: 2,
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    transition: 'all 0.3s ease',
                     '&:hover': {
                       color: '#FFD54F',
-                      textDecoration: 'underline',
+                      textDecoration: 'none',
+                      transform: 'translateX(4px)',
                     },
                   }}
                 >
@@ -203,20 +235,22 @@ const Footer: React.FC = () => {
               variant="h6"
               component="div"
               sx={{
-                fontWeight: 'bold',
-                mb: 2,
+                fontWeight: 700,
+                mb: 3,
                 color: '#FFD54F',
+                textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+                letterSpacing: '0.3px',
               }}
             >
               Connect With Us
             </Typography>
             
             {/* Social Media */}
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="body2" color="rgba(255,255,255,0.8)" sx={{ mb: 1 }}>
+            <Box sx={{ mb: 4 }}>
+              <Typography variant="body1" color="rgba(255,255,255,0.9)" sx={{ mb: 2, fontWeight: 500 }}>
                 Follow us on social media
               </Typography>
-              <Box sx={{ display: 'flex', gap: 1 }}>
+              <Box sx={{ display: 'flex', gap: 1.5 }}>
                 {socialLinks.map((social) => (
                   <IconButton
                     key={social.label}
@@ -224,10 +258,16 @@ const Footer: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     sx={{
-                      color: 'rgba(255,255,255,0.8)',
+                      color: 'rgba(255,255,255,0.9)',
+                      backgroundColor: 'rgba(255,255,255,0.1)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      transition: 'all 0.3s ease',
                       '&:hover': {
                         color: '#FFD54F',
-                        backgroundColor: 'rgba(255,255,255,0.1)',
+                        backgroundColor: 'rgba(255,255,255,0.2)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 4px 12px rgba(255, 213, 79, 0.3)',
                       },
                     }}
                     aria-label={social.label}
@@ -241,30 +281,36 @@ const Footer: React.FC = () => {
             {/* Islamic Quote */}
             <Box
               sx={{
-                p: 2,
+                p: 3,
                 backgroundColor: 'rgba(255,255,255,0.1)',
-                borderRadius: 2,
+                backdropFilter: 'blur(10px)',
+                borderRadius: 3,
                 border: '1px solid rgba(255,255,255,0.2)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               }}
             >
               <Typography
-                variant="body2"
+                variant="body1"
                 sx={{
                   fontStyle: 'italic',
-                  color: 'rgba(255,255,255,0.9)',
+                  color: 'rgba(255,255,255,0.95)',
                   textAlign: 'center',
-                  mb: 1,
+                  mb: 2,
+                  lineHeight: 1.6,
+                  fontWeight: 400,
                 }}
               >
                 "And whoever does righteous deeds - whether male or female - while being a believer, 
                 they will enter Paradise and will not be wronged even as much as the speck on a date seed."
               </Typography>
               <Typography
-                variant="caption"
+                variant="body2"
                 sx={{
                   color: '#FFD54F',
                   textAlign: 'center',
                   display: 'block',
+                  fontWeight: 600,
+                  letterSpacing: '0.3px',
                 }}
               >
                 - Quran 4:124
@@ -273,7 +319,7 @@ const Footer: React.FC = () => {
           </Grid>
         </Grid>
 
-        <Divider sx={{ my: 3, borderColor: 'rgba(255,255,255,0.2)' }} />
+        <Divider sx={{ my: 4, borderColor: 'rgba(255,255,255,0.2)' }} />
 
         {/* Bottom Section */}
         <Box
@@ -282,27 +328,32 @@ const Footer: React.FC = () => {
             flexDirection: { xs: 'column', md: 'row' },
             justifyContent: 'space-between',
             alignItems: 'center',
-            gap: 2,
+            gap: 3,
           }}
         >
           <Typography
-            variant="body2"
-            color="rgba(255,255,255,0.7)"
-            sx={{ textAlign: { xs: 'center', md: 'left' } }}
+            variant="body1"
+            color="rgba(255,255,255,0.8)"
+            sx={{ 
+              textAlign: { xs: 'center', md: 'left' },
+              fontWeight: 500,
+            }}
           >
             © {currentYear} Muslim Corpers Association of Nigeria. All rights reserved.
           </Typography>
           
-          <Box sx={{ display: 'flex', gap: 3 }}>
+          <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-end' } }}>
             <Link
               href="/privacy"
               sx={{
-                color: 'rgba(255,255,255,0.7)',
+                color: 'rgba(255,255,255,0.8)',
                 textDecoration: 'none',
-                fontSize: '0.875rem',
+                fontSize: '1rem',
+                fontWeight: 500,
+                transition: 'all 0.3s ease',
                 '&:hover': {
                   color: '#FFD54F',
-                  textDecoration: 'underline',
+                  textDecoration: 'none',
                 },
               }}
             >
@@ -311,12 +362,14 @@ const Footer: React.FC = () => {
             <Link
               href="/terms"
               sx={{
-                color: 'rgba(255,255,255,0.7)',
+                color: 'rgba(255,255,255,0.8)',
                 textDecoration: 'none',
-                fontSize: '0.875rem',
+                fontSize: '1rem',
+                fontWeight: 500,
+                transition: 'all 0.3s ease',
                 '&:hover': {
                   color: '#FFD54F',
-                  textDecoration: 'underline',
+                  textDecoration: 'none',
                 },
               }}
             >
@@ -325,12 +378,14 @@ const Footer: React.FC = () => {
             <Link
               href="/accessibility"
               sx={{
-                color: 'rgba(255,255,255,0.7)',
+                color: 'rgba(255,255,255,0.8)',
                 textDecoration: 'none',
-                fontSize: '0.875rem',
+                fontSize: '1rem',
+                fontWeight: 500,
+                transition: 'all 0.3s ease',
                 '&:hover': {
                   color: '#FFD54F',
-                  textDecoration: 'underline',
+                  textDecoration: 'none',
                 },
               }}
             >
