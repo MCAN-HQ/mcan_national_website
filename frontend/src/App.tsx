@@ -24,6 +24,7 @@ import ProfilePage from './pages/dashboard/ProfilePage';
 import PrayerTimesPage from './pages/PrayerTimesPage';
 import NotFoundPage from './pages/NotFoundPage';
 import EIDPage from './pages/dashboard/EIDPage';
+import IslamicResourcesPage from './pages/IslamicResourcesPage';
 
 // Protected Route Component
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -53,6 +54,7 @@ const AppContent: React.FC = () => {
           <Route path="/states" element={<StatesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/prayer-times" element={<PrayerTimesPage />} />
+          <Route path="/islamic-resources" element={<IslamicResourcesPage />} />
           
           {/* Authentication Routes */}
           <Route 

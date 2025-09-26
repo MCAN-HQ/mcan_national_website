@@ -134,23 +134,50 @@ const HomePage: React.FC = () => {
     {
       name: 'Aisha Ibrahim',
       role: 'Corps Member, Lagos State',
-      content: 'MCAN has revolutionized how we manage our NYSC experience. The digital platform makes everything so seamless!',
+      content: 'MCAN has revolutionized how we manage our NYSC experience. The digital platform makes everything so seamless! The prayer times feature keeps me connected to my faith, and the property management system helped me find perfect accommodation.',
       avatar: 'AI',
-      rating: 5
+      rating: 5,
+      year: '2023'
     },
     {
       name: 'Hassan Musa',
       role: 'State Secretary, Abuja',
-      content: 'The property management system has made our work so much easier. We can track everything in real-time.',
+      content: 'The property management system has made our work so much easier. We can track everything in real-time, and the Islamic resources section has been invaluable for our educational programs.',
       avatar: 'HM',
-      rating: 5
+      rating: 5,
+      year: '2022'
     },
     {
       name: 'Fatima Bello',
       role: 'Corps Member, Kano',
-      content: 'The support system is amazing. I got help within minutes when I needed assistance with my accommodation.',
+      content: 'The support system is amazing. I got help within minutes when I needed assistance with my accommodation. The state chapters map helped me connect with local MCAN members in my area.',
       avatar: 'FB',
-      rating: 5
+      rating: 5,
+      year: '2023'
+    },
+    {
+      name: 'Yusuf Abdullahi',
+      role: 'Former Corps Member, Rivers State',
+      content: 'MCAN provided me with not just accommodation but a community. The Islamic resources helped me deepen my understanding of Islam during my service year.',
+      avatar: 'YA',
+      rating: 5,
+      year: '2021'
+    },
+    {
+      name: 'Maryam Hassan',
+      role: 'State Ameer, Kaduna',
+      content: 'Leading our state chapter has been made so much easier with MCAN\'s digital tools. The real-time analytics and member management features are outstanding.',
+      avatar: 'MH',
+      rating: 5,
+      year: '2022'
+    },
+    {
+      name: 'Ibrahim Suleiman',
+      role: 'Corps Member, Ogun State',
+      content: 'The prayer times with location detection is a game-changer! It automatically adjusts to my location as I travel for my primary assignment. MCAN truly understands our needs.',
+      avatar: 'IS',
+      rating: 5,
+      year: '2023'
     },
   ];
 
@@ -625,7 +652,7 @@ const HomePage: React.FC = () => {
           </Fade>
           
           <Grid container spacing={4}>
-            {testimonials.map((testimonial, index) => (
+            {testimonials.slice(0, 3).map((testimonial, index) => (
               <Grid item xs={12} md={4} key={index}>
                 <Slide direction="up" in={isVisible} timeout={1000 + index * 200}>
                   <Card
@@ -644,10 +671,18 @@ const HomePage: React.FC = () => {
                     }}
                   >
                     <CardContent>
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star key={i} sx={{ color: '#FFD700', fontSize: 20 }} />
-                        ))}
+                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          {[...Array(testimonial.rating)].map((_, i) => (
+                            <Star key={i} sx={{ color: '#FFD700', fontSize: 20 }} />
+                          ))}
+                        </Box>
+                        <Chip 
+                          label={testimonial.year} 
+                          size="small" 
+                          color="primary" 
+                          variant="outlined"
+                        />
                       </Box>
                       
                       <Typography variant="body1" sx={{ mb: 3, fontStyle: 'italic', lineHeight: 1.6 }}>
@@ -673,6 +708,31 @@ const HomePage: React.FC = () => {
               </Grid>
             ))}
           </Grid>
+          
+          {/* View More Testimonials Button */}
+          <Box sx={{ textAlign: 'center', mt: 4 }}>
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={() => navigate('/testimonials')}
+              sx={{
+                px: 4,
+                py: 1.5,
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                borderRadius: 3,
+                borderColor: 'primary.main',
+                color: 'primary.main',
+                '&:hover': {
+                  backgroundColor: 'primary.main',
+                  color: 'white',
+                  transform: 'translateY(-2px)',
+                },
+              }}
+            >
+              View More Success Stories
+            </Button>
+          </Box>
         </Container>
       </Box>
 

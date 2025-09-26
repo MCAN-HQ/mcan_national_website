@@ -1,11 +1,14 @@
 import React from 'react';
-import { Container, Typography, Grid, Card, CardContent, Box, Chip, Button } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Container, Typography, Box, Chip, Tabs, Tab } from '@mui/material';
+import { useState } from 'react';
+import StateChaptersMap from '../components/map/StateChaptersMap';
 
 const StatesPage: React.FC = () => {
-  const states = [
-    'Abia','Adamawa','Akwa Ibom','Anambra','Bauchi','Bayelsa','Benue','Borno','Cross River','Delta','Ebonyi','Edo','Ekiti','Enugu','Gombe','Imo','Jigawa','Kaduna','Kano','Katsina','Kebbi','Kogi','Kwara','Lagos','Nasarawa','Niger','Ogun','Ondo','Osun','Oyo','Plateau','Rivers','Sokoto','Taraba','Yobe','Zamfara','FCT'
-  ];
+  const [activeTab, setActiveTab] = useState(0);
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
+  };
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -19,28 +22,21 @@ const StatesPage: React.FC = () => {
         </Typography>
       </Box>
 
-      <Grid container spacing={2}>
-        {states.map((state) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={state}>
-            <Card sx={{ height: '100%' }}>
-              <CardContent>
-                <Typography variant="h6" sx={{ fontWeight: 800 }}>{state}</Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  Programs, properties, and activities in {state}.
-                </Typography>
-                <Button
-                  component={RouterLink}
-                  to={`/services/properties?state=${encodeURIComponent(state)}`}
-                  size="small"
-                  variant="outlined"
-                >
-                  View Properties
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>
+        <Tabs value={activeTab} onChange={handleTabChange} centered>
+          <Tab label="Interactive Map" />
+          <Tab label="All States" />
+        </Tabs>
+      </Box>
+
+      {activeTab === 0 && <StateChaptersMap />}
+      {activeTab === 1 && (
+        <Box sx={{ textAlign: 'center', py: 8 }}>
+          <Typography variant="h6" color="text.secondary">
+            Full state listing coming soon...
+          </Typography>
+        </Box>
+      )}
     </Container>
   );
 };

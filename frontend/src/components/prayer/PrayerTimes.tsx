@@ -10,6 +10,14 @@ import {
   Tooltip,
   CircularProgress,
   Alert,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Autocomplete,
+  Snackbar,
 } from '@mui/material';
 import {
   LocationOn,
@@ -19,6 +27,9 @@ import {
   AccessTime,
   WbSunny,
   NightsStay,
+  MyLocation,
+  Search,
+  Navigation,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
@@ -45,6 +56,26 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [, setCurrentTime] = useState(new Date());
+  const [locationDialogOpen, setLocationDialogOpen] = useState(false);
+  const [searchLocation, setSearchLocation] = useState('');
+  const [detectingLocation, setDetectingLocation] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [qiblaDirection, setQiblaDirection] = useState<number | null>(null);
+  const [hijriDate, setHijriDate] = useState<string>('');
+
+  // Nigerian cities for location search
+  const nigerianCities = [
+    'Lagos, Nigeria', 'Abuja, Nigeria', 'Kano, Nigeria', 'Ibadan, Nigeria',
+    'Port Harcourt, Nigeria', 'Kaduna, Nigeria', 'Maiduguri, Nigeria',
+    'Ilorin, Nigeria', 'Jos, Nigeria', 'Zaria, Nigeria', 'Benin City, Nigeria',
+    'Ilesa, Nigeria', 'Oyo, Nigeria', 'Ikerre, Nigeria', 'Abeokuta, Nigeria',
+    'Enugu, Nigeria', 'Sokoto, Nigeria', 'Calabar, Nigeria', 'Uyo, Nigeria',
+    'Akure, Nigeria', 'Owerri, Nigeria', 'Bauchi, Nigeria', 'Katsina, Nigeria',
+    'Gombe, Nigeria', 'Yola, Nigeria', 'Makurdi, Nigeria', 'Lafia, Nigeria',
+    'Minna, Nigeria', 'Lokoja, Nigeria', 'Asaba, Nigeria', 'Awka, Nigeria',
+    'Ado-Ekiti, Nigeria', 'Osogbo, Nigeria', 'Abeokuta, Nigeria', 'Ibadan, Nigeria'
+  ];
 
   // Mock prayer times - in real app, this would come from an API
   const mockPrayerTimes = useMemo(() => [
@@ -76,6 +107,69 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
     return 0;
   }, [mockPrayerTimes]);
 
+  const detectCurrentLocation = useCallback(async () => {
+    setDetectingLocation(true);
+    try {
+      if (!navigator.geolocation) {
+        throw new Error('Geolocation is not supported by this browser');
+      }
+
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 300000
+        });
+      });
+
+      const { latitude, longitude } = position.coords;
+      
+      // Reverse geocoding to get city name
+      const response = await fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+      );
+      const data = await response.json();
+      
+      const cityName = data.city || data.locality || 'Unknown';
+      const countryName = data.countryName || 'Nigeria';
+      const newLocation = `${cityName}, ${countryName}`;
+      
+      if (onLocationChange) {
+        onLocationChange(newLocation);
+      }
+      
+      setSnackbarMessage(`Location updated to ${newLocation}`);
+      setSnackbarOpen(true);
+      
+      // Calculate Qibla direction
+      const qiblaAngle = calculateQiblaDirection(latitude, longitude);
+      setQiblaDirection(qiblaAngle);
+      
+    } catch (error) {
+      console.error('Error detecting location:', error);
+      setSnackbarMessage('Unable to detect location. Please select manually.');
+      setSnackbarOpen(true);
+    } finally {
+      setDetectingLocation(false);
+    }
+  }, [onLocationChange]);
+
+  const calculateQiblaDirection = (lat: number, lng: number): number => {
+    // Kaaba coordinates
+    const kaabaLat = 21.4225;
+    const kaabaLng = 39.8262;
+    
+    const dLng = (kaabaLng - lng) * Math.PI / 180;
+    const lat1 = lat * Math.PI / 180;
+    const lat2 = kaabaLat * Math.PI / 180;
+    
+    const y = Math.sin(dLng) * Math.cos(lat2);
+    const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
+    
+    let bearing = Math.atan2(y, x) * 180 / Math.PI;
+    return (bearing + 360) % 360;
+  };
+
   const loadPrayerTimes = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -94,6 +188,10 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
       }));
       
       setPrayerTimes(times);
+      
+      // Set Hijri date (mock for now)
+      setHijriDate('15th Rabi\' al-Awwal, 1446 AH');
+      
     } catch (err) {
       setError('Failed to load prayer times');
     } finally {
@@ -174,8 +272,22 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
             <Typography variant="h6" fontWeight="bold">
               {location}
             </Typography>
+            <Button
+              size="small"
+              startIcon={<MyLocation />}
+              onClick={detectCurrentLocation}
+              disabled={detectingLocation}
+              sx={{ ml: 1 }}
+            >
+              {detectingLocation ? 'Detecting...' : 'Detect'}
+            </Button>
           </Box>
           <Box sx={{ display: 'flex', gap: 1 }}>
+            <Tooltip title="Change location">
+              <IconButton onClick={() => setLocationDialogOpen(true)}>
+                <Search />
+              </IconButton>
+            </Tooltip>
             <Tooltip title={notificationsEnabled ? 'Disable notifications' : 'Enable notifications'}>
               <IconButton onClick={handleNotificationToggle} color={notificationsEnabled ? 'primary' : 'default'}>
                 {notificationsEnabled ? <Notifications /> : <NotificationsOff />}
@@ -272,17 +384,67 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <Typography variant="body2" color="text.secondary">
-                <strong>Hijri Date:</strong> 15th Rabi' al-Awwal, 1446 AH
+                <strong>Hijri Date:</strong> {hijriDate}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Typography variant="body2" color="text.secondary">
-                <strong>Qibla Direction:</strong> 65° Northeast
+                <strong>Qibla Direction:</strong> {qiblaDirection ? `${Math.round(qiblaDirection)}°` : 'Calculating...'}
+                {qiblaDirection && (
+                  <Navigation sx={{ ml: 1, transform: `rotate(${qiblaDirection}deg)` }} />
+                )}
               </Typography>
             </Grid>
           </Grid>
         </CardContent>
       </Card>
+
+      {/* Location Selection Dialog */}
+      <Dialog open={locationDialogOpen} onClose={() => setLocationDialogOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Select Location</DialogTitle>
+        <DialogContent>
+          <Autocomplete
+            options={nigerianCities}
+            value={searchLocation}
+            onChange={(_, newValue) => setSearchLocation(newValue || '')}
+            onInputChange={(_, newInputValue) => setSearchLocation(newInputValue)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Search for a city"
+                placeholder="Type to search..."
+                fullWidth
+                sx={{ mt: 2 }}
+              />
+            )}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setLocationDialogOpen(false)}>Cancel</Button>
+          <Button 
+            onClick={() => {
+              if (searchLocation && onLocationChange) {
+                onLocationChange(searchLocation);
+                setSnackbarMessage(`Location updated to ${searchLocation}`);
+                setSnackbarOpen(true);
+              }
+              setLocationDialogOpen(false);
+            }}
+            variant="contained"
+            disabled={!searchLocation}
+          >
+            Update Location
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Snackbar for notifications */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+        message={snackbarMessage}
+      />
     </Box>
   );
 };
